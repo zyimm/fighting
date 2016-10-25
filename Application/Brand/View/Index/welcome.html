@@ -1,0 +1,28 @@
+<div class="padding">
+	<div class="panel x5 margin-large-right">
+		<div class="panel-head">
+			<h4><i class="icon-user text-red"></i>&nbsp;个人信息</h4>
+		</div>
+		<div class="panel-body">
+			<p>您好，{$admin_info.user_name}</p>
+			<p>所属角色: <b>{$admin_info.role_name}</b> </p>
+			<p>当前平台: <b>品牌终端管理</b> </p>
+			<p>到期时间: <b class="text-dot"><?php echo date('Y-m-d H:i:s',$admin_info['expire_time']);?></b> </p>
+			<p>上次登录时间：<?php echo date('Y-m-d H:i:s');?> </p>
+			<p>上次登录IP：<?php echo $_SERVER['REMOTE_ADDR'];?> </p>
+		</div>
+	</div>
+	<div class="panel x5">
+		<div class="panel-head">
+			<h4><i class="icon-cogs text-main"></i>&nbsp;系统信息</h4>
+		</div>
+		<div class="panel-body">
+			<p>程序版本：<a href="http://www.zyimm.com">V.2016</a>05.10 </p>
+			<p>操作系统：<?php echo PHP_OS;?></p>
+			<p>服务器名称：<?php echo $_SERVER['SERVER_NAME'];?></p>
+			<p> PHP版本：<?php echo PHP_VERSION;?></p>
+		</div>
+	</div>
+	
+</div>
+

@@ -1,0 +1,75 @@
+<taglib name="html" />
+<div class="padding table-responsive">
+	{:crumbs(8,'修改详细')}
+	<hr />
+	<div class="panel">
+		<div class="panel-head "><h4 class='icon-edit '>APP版本修改</h4></div>
+		<div class="panel-body">
+			<form method="post" action='' class="form-x"  />
+				<input type="hidden" name='id' value='{$version_info.id}' />
+				<table class="table"> 
+				
+					<tr>
+						<td>APP版本号:</td>
+						<td style="text-align:left">
+							<html:input name='version' class='input width-250 display-inline-block '  placeholder="APP版本号"  value='{$version_info.version}' datatype='*' /></td>
+						</td>
+					</tr>	
+				
+					<tr>
+						<td>升级地址:</td>
+						<td style="text-align:left">
+							<html:input name='url' type='url' style='width:360px;'  class='input  display-inline-block '  placeholder="升级地址"  value='{$version_info.url}' datatype='url' /></td>
+						</td>
+					</tr>
+					<tr>
+						<td>更新描述:</td>
+						<td style="text-align:left"><textarea name="version_desc" class="input" cols="30" rows="10">{$version_info.version_desc}</textarea></td>
+					</tr>	
+					<tr>
+						<td>APP_CODE:</td>
+						<td style="text-align:left">
+							<html:input name="code" class='input display-inline-block width-250 ' value='{$version_info.code}' datatype='*' />
+						</td>
+					</tr>
+					
+					<tr> 	
+						<td>APP类型:</td>
+						<td style="text-align:left">
+							<if condition="$version_info.type eq 1 ">
+							<i class="icon-android text-main text-large"></i>&nbsp;&nbsp;Android
+							<else />
+							<i class="icon-apple text-main text-large"></i>&nbsp;&nbsp;IOS
+							</if>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan="2"><input value="保存" class="button bg-blue" type="submit"></td>
+					</tr>
+				</table>
+			</form>	
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/app';
+					});	
+				}else{
+					layer.msg(data.info);
+				}
+			}
+		});
+	});
+</script>
+

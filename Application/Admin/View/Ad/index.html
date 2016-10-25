@@ -1,0 +1,52 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(18,'列表详细')}
+	<hr />
+	<div class="alert margin-bottom"><a href="__CONTROLLER__/add" class="button border-main icon-plus-square">&nbsp;新增</a></div>
+	<table class="table table-bordered table-hover table-striped">
+		<tbody> 
+			<tr>
+				<th>序号</th>
+				<th>标题</th>
+				<th>缩略图</th>
+				<th>是否跳转</th>
+				<th>更新时间</th>
+				<th>是否显示</th>
+				<th>相关操作</th>
+			</tr>
+			<volist name="ad_list" id="ad">
+			<tr>
+				<td>{++$key}</td>
+				<td>{$ad.ad_title}</td>
+				<td><img src="{$ad.ad_image}" alt="" width=40 height=40 onclick="showImage('{$ad.ad_image}')" /></td>
+				<td> 
+				<if condition="$ad.ad_type eq 1 ">
+					跳转
+				<else />
+					不跳转
+				</if>
+				</td>
+				
+				<td>{$ad.time|date='Y-m-d H:i:s',###}</td>
+				<td>
+				<if condition="$ad.status eq 1 ">
+					<tag class="badge bg-main">显示</tag>
+				<else />
+					<tag class="badge bg-dot">隐藏</tag>
+				</if>
+				</td>
+				<td>
+					<a href="__CONTROLLER__/edit?ad_id={$ad.ad_id}" class="button bg-blue button-little">编辑</a>
+					<a href="javascript:void(0)" onclick="itemDel({$ad.ad_id},'__CONTROLLER__/del');" class="button bg-dot button-little">删除</a>
+				</td>
+			</tr>
+			</volist>
+			
+		</tbody>
+           
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

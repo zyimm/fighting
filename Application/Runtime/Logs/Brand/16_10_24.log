@@ -1,0 +1,302 @@
+[ 2016-10-24T20:45:29+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+ERR: 1052:Column 'brand_id' in field list is ambiguous
+ [ SQL语句 ] : SELECT `brand_id`,`brand_name` FROM xy_store s left JOIN xy_brand as b on s.brand_id=b.brand_id  WHERE b.brand_id = '2' AND s.store_id IN ('4') AND `is_del` = 0 
+
+[ 2016-10-24T20:46:50+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+ERR: 1052:Column 'brand_id' in field list is ambiguous
+ [ SQL语句 ] : SELECT `brand_id`,`brand_name` FROM xy_store s left JOIN xy_brand as b on s.brand_id=b.brand_id  WHERE b.brand_id = '2' AND s.store_id IN ('4') AND `is_del` = 0 
+
+[ 2016-10-24T20:47:25+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+ERR: 1052:Column 'brand_id' in field list is ambiguous
+ [ SQL语句 ] : SELECT `brand_id`,`brand_name` FROM xy_store s left JOIN xy_brand as b on s.brand_id=b.brand_id  WHERE b.brand_id = '2' AND s.store_id IN ('4') AND `is_del` = 0 
+
+[ 2016-10-24T20:48:53+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+ERR: 1052:Column 'brand_id' in field list is ambiguous
+ [ SQL语句 ] : SELECT `brand_id`,`brand_name` FROM xy_store s left JOIN xy_brand as b on s.brand_id=b.brand_id  WHERE b.brand_id = '2' AND s.store_id IN ('4') AND s.is_del = 0 
+
+[ 2016-10-24T21:06:54+08:00 ] 127.0.0.1 /Brand/Store/editAdmin.html?admin_id=1
+ERR: 1051:Unknown table 'bu'
+ [ SQL语句 ] : SELECT bu.*,b.brand_name FROM xy_store s left JOIN xy_brand as b on s.brand_id=b.brand_id  WHERE bu.id = 1 AND b.brand_status = 1 AND bu.is_del = 0 
+
+[ 2016-10-24T21:10:22+08:00 ] 127.0.0.1 /brand/Store/storeAdminList.html
+ERR: 1054:Unknown column 'bu.is_del' in 'where clause'
+ [ SQL语句 ] : SELECT * FROM `xy_store_user` WHERE bu.is_del = 0 
+
+[ 2016-10-24T21:14:02+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0180s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0160s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0200s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0180s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0180s ]
+NOTIC: [8] Undefined index: brand_id D:\wamp\www\fighting\Application\Brand\Controller\StoreController.class.php 第 154 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `role_id` = 1 AND `brand_id` = 0 LIMIT 1   [ RunTime:0.0160s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 LIMIT 1   [ RunTime:0.0160s ]
+SQL: INSERT INTO `xy_store_user` (`store_id`,`user_name`,`email`,`password`,`status`,`role_id`) VALUES ('4','sz_store_admin','sz_store_admin@qq.com','d41d8cd98f00b204e9800998ecf8427e','1','1') [ RunTime:0.0320s ]
+
+[ 2016-10-24T21:14:05+08:00 ] 127.0.0.1 /Brand/Store/brandAdminList.html
+ERR: 非法操作:brandAdminList
+
+[ 2016-10-24T21:18:44+08:00 ] 127.0.0.1 /Brand/Store/editAdmin.html?admin_id=3
+ERR: 1054:Unknown column 'bu.id' in 'where clause'
+ [ SQL语句 ] : SELECT * FROM `xy_store_user` WHERE bu.id = 3 AND b.brand_status = 1 AND bu.is_del = 0 
+
+[ 2016-10-24T21:30:20+08:00 ] 127.0.0.1 /Brand/Store/editAdmin.html?admin_id=3
+ERR: 1054:Unknown column 'bu.id' in 'where clause'
+ [ SQL语句 ] : SELECT * FROM `xy_store_user` WHERE bu.id = 3 AND b.brand_status = 1 AND bu.is_del = 0 
+
+[ 2016-10-24T21:30:24+08:00 ] 127.0.0.1 /Brand/Store/editAdmin.html?admin_id=3
+ERR: 1054:Unknown column 'bu.id' in 'where clause'
+ [ SQL语句 ] : SELECT * FROM `xy_store_user` WHERE bu.id = 3 AND b.brand_status = 1 AND bu.is_del = 0 
+
+[ 2016-10-24T21:37:24+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0190s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0160s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0140s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `role_id` = 1 AND `store_id` = 5 LIMIT 1   [ RunTime:0.0130s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 LIMIT 1   [ RunTime:0.0180s ]
+
+[ 2016-10-24T21:37:54+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0130s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0120s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0140s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0120s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0220s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `role_id` = 1 AND `store_id` = 5 LIMIT 1   [ RunTime:0.0130s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 LIMIT 1   [ RunTime:0.0130s ]
+
+[ 2016-10-24T21:38:38+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0200s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0180s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0180s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0150s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0170s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `role_id` = 1 AND `store_id` = 5 LIMIT 1   [ RunTime:0.0160s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 LIMIT 1   [ RunTime:0.0160s ]
+
+[ 2016-10-24T21:40:13+08:00 ] 127.0.0.1 /Brand/Store/addAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0130s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0140s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0130s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0120s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0110s ]
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `role_id` = 1 AND `store_id` = 5 LIMIT 1   [ RunTime:0.0130s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 'szn_store_admin@qq.com' LIMIT 1   [ RunTime:0.0120s ]
+SQL: INSERT INTO `xy_store_user` (`store_id`,`user_name`,`email`,`password`,`status`,`role_id`,`brand_id`) VALUES ('5','szn_store_admin','szn_store_admin@qq.com','e10adc3949ba59abbe56e057f20f883e','1','1','2') [ RunTime:0.0320s ]
+
+[ 2016-10-24T22:07:07+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: 无法加载控制器:Setting
+
+[ 2016-10-24T22:07:37+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: Think\Model:getStoreAdminInfo方法不存在！
+
+[ 2016-10-24T22:08:02+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: Think\Model:getStoreAdminInfo方法不存在！
+
+[ 2016-10-24T22:08:04+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: Think\Model:getStoreAdminInfo方法不存在！
+
+[ 2016-10-24T22:08:42+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: Think\Model:getStoreAdminInfo方法不存在！
+
+[ 2016-10-24T22:09:59+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: 1146:Table 'fighting.xy_admin/_store' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `xy_admin/_store`
+
+[ 2016-10-24T22:10:06+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: 1146:Table 'fighting.xy_admin\_store' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `xy_admin\_store`
+
+[ 2016-10-24T22:10:13+08:00 ] 127.0.0.1 /brand/setting/modifyPass
+ERR: 1146:Table 'fighting.xy_admin\_store' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `xy_admin\_store`
+
+[ 2016-10-24T22:17:16+08:00 ] 127.0.0.1 /brand/Talk/index.html
+ERR: 1052:Column 'is_del' in where clause is ambiguous
+ [ SQL语句 ] : SELECT COUNT(*) AS tp_count FROM xy_talk t left JOIN xy_brand as b on b.brand_id = t.brand_id  WHERE `is_del` = 0 AND `brand_id` = '2' LIMIT 1  
+
+[ 2016-10-24T22:18:24+08:00 ] 127.0.0.1 /brand/Talk/index.html
+ERR: 模板不存在:../Application/Brand/View/Talk/index.html
+
+[ 2016-10-24T22:19:17+08:00 ] 127.0.0.1 /brand/Talk/index.html
+ERR: 模板不存在:../Application/Brand/View/Talk/index.html
+
+[ 2016-10-24T22:19:18+08:00 ] 127.0.0.1 /brand/Talk/index.html
+ERR: 模板不存在:../Application/Brand/View/Talk/index.html
+
+[ 2016-10-24T22:23:39+08:00 ] 127.0.0.1 /Brand/Talk/add
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002001s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0170s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0200s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0170s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0170s ]
+SQL: SHOW COLUMNS FROM `xy_talk` [ RunTime:0.0160s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_talk` WHERE `talk_title` = '苏州精英跆拳道俱乐部话题' AND `brand_id` = 2 LIMIT 1   [ RunTime:0.0160s ]
+SQL: INSERT INTO `xy_talk` (`talk_id`,`talk_title`,`status`,`talk_content`,`talk_image`,`time`) VALUES ('0','苏州精英跆拳道俱乐部话题','1','&lt;p&gt;苏州精英跆拳道俱乐部话题&lt;br/&gt;&lt;/p&gt;','/uploads/images/20161024/1477319004217095.png','1477319019') [ RunTime:0.0150s ]
+
+[ 2016-10-24T22:28:03+08:00 ] 127.0.0.1 /Brand/Talk/add
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0140s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0130s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0150s ]
+SQL: SHOW COLUMNS FROM `xy_talk` [ RunTime:0.0140s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_talk` WHERE `talk_title` = '苏州精英跆拳道俱乐部话题-2' AND `brand_id` = 2 LIMIT 1   [ RunTime:0.0200s ]
+SQL: INSERT INTO `xy_talk` (`talk_id`,`talk_title`,`status`,`talk_content`,`talk_image`,`brand_id`,`time`) VALUES ('0','苏州精英跆拳道俱乐部话题-2','1','&lt;p&gt;苏州精英跆拳道俱乐部话题-2&lt;/p&gt;','/uploads/images/20161024/1477319278151256.jpg','2','1477319283') [ RunTime:0.0140s ]
+
+[ 2016-10-24T22:29:32+08:00 ] 127.0.0.1 /Brand/Talk/del
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0130s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0130s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_talk` [ RunTime:0.0140s ]
+SQL: UPDATE `xy_talk` SET `is_del`='1' WHERE `brand_id` = 2 [ RunTime:0.0140s ]
+
+[ 2016-10-24T22:30:47+08:00 ] 127.0.0.1 /Brand/Talk/del
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.009001s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0190s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0360s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0180s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0420s ]
+SQL: SHOW COLUMNS FROM `xy_talk` [ RunTime:0.0290s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.001000s ]
+
+[ 2016-10-24T22:31:28+08:00 ] 127.0.0.1 /Brand/Talk/del
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0140s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0180s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0150s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0190s ]
+SQL: SHOW COLUMNS FROM `xy_talk` [ RunTime:0.0210s ]
+SQL: UPDATE `xy_talk` SET `is_del`='1' WHERE `talk_id` = 16 AND `brand_id` = 2 [ RunTime:0.0160s ]
+
+[ 2016-10-24T22:42:10+08:00 ] 127.0.0.1 /Brand/Talk/comment?talk_id=15
+ERR: 非法操作:comment
+
+[ 2016-10-24T22:43:58+08:00 ] 127.0.0.1 /Brand/Talk/edit
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0140s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0760s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0140s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_talk` [ RunTime:0.0140s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_talk` WHERE `talk_title` = '苏州精英跆拳道俱乐部话题-2' AND `talk_id` <> 16 LIMIT 1   [ RunTime:0.0130s ]
+SQL: UPDATE `xy_talk` SET `talk_id`='16',`talk_title`='苏州精英跆拳道俱乐部话题-2',`status`='1',`talk_content`='&lt;p&gt;苏州精英跆拳道俱乐部话题-2&lt;/p&gt;',`talk_image`='/uploads/images/20161024/1477319278151256.jpg',`time`='1477320238',`brand_id`='2' WHERE `talk_id` = 16 [ RunTime:0.0140s ]
+
+[ 2016-10-24T23:27:08+08:00 ] 127.0.0.1 /Brand/Store/editAdmin.html?admin_id=4
+ERR: 1052:Column 'brand_id' in where clause is ambiguous
+ [ SQL语句 ] : SELECT * FROM xy_store_user su left JOIN xy_store as s on s.store_id = su.store_id  WHERE `id` = 4 AND `status` = 1 AND `brand_id` = '2' AND `is_del` = 0 
+
+[ 2016-10-24T23:34:36+08:00 ] 127.0.0.1 /Brand/Store/editAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0130s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0120s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0130s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0110s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0120s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 AND `id` <> 3 LIMIT 1   [ RunTime:0.0120s ]
+
+[ 2016-10-24T23:34:56+08:00 ] 127.0.0.1 /Brand/Store/editAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0200s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0230s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0160s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0150s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0210s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 AND `id` <> 3 LIMIT 1   [ RunTime:0.0230s ]
+
+[ 2016-10-24T23:35:26+08:00 ] 127.0.0.1 /Brand/Store/editAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0110s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0130s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0110s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0160s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0130s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 AND `id` <> 3 LIMIT 1   [ RunTime:0.0270s ]
+
+[ 2016-10-24T23:35:30+08:00 ] 127.0.0.1 /Brand/Store/editAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.002000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0550s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0480s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0220s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0140s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0140s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 0 AND `id` <> 3 LIMIT 1   [ RunTime:0.0130s ]
+
+[ 2016-10-24T23:36:19+08:00 ] 127.0.0.1 /Brand/Store/editAdmin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+SQL: SHOW COLUMNS FROM `xy_brand_user` [ RunTime:0.0240s ]
+SQL: SELECT b.*,r.title as role_name FROM xy_brand_user b left JOIN xy_brand_auth_group as r on b.role_id=r.id  WHERE ( b.id=1 ) LIMIT 1   [ RunTime:0.0120s ]
+SQL: SHOW COLUMNS FROM `xy_store` [ RunTime:0.0140s ]
+SQL: SELECT `store_id` FROM `xy_store` WHERE `brand_id` = '2' AND `is_del` = 0 AND `store_status` = 1  [ RunTime:0.0120s ]
+SQL: SHOW COLUMNS FROM `xy_store_user` [ RunTime:0.0130s ]
+NOTIC: [8] Undefined index: validate D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1185 行.
+NOTIC: [8] Undefined index: auto D:\wamp\www\fighting\ThinkPHP\Library\Think\Model.class.php 第 1128 行.
+SQL: SELECT COUNT(*) AS tp_count FROM `xy_store_user` WHERE `email` = 'sz_store_admin@qq.com' AND `id` <> 3 LIMIT 1   [ RunTime:0.0120s ]
+SQL: UPDATE `xy_store_user` SET `store_id`='4',`user_name`='sz_store_admin',`email`='sz_store_admin@qq.com',`status`='1',`login_time`='1477323379' WHERE `id` = 3 [ RunTime:0.0140s ]
+

@@ -1,0 +1,39 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(20,'列表详细','store_menu')}
+	<hr />
+	<div class="alert"><a href="__CONTROLLER__/addAdmin" class="button bg-main icon-plus-square">&nbsp;新增平台管理员</a></div>
+	<table class="table table-hover table-striped"> 
+		<tr>
+			<th>管理员序列</th>
+			<th>管理员名称</th>
+			<th>所属角色</th>
+			<th>管理员状态</th>
+			<th>操作</th>
+		</tr>
+		<volist name="admin_list" id="al"> 
+		<tr>
+			<td>{++$key}</td>
+			<td>{$al.user_name}</td>
+			<td>{$al.role_name}</td>
+			<if condition="$al.status eq 1 ">
+			<td><b class="text-main">正常</b></td>
+			<else />
+			<td><b class="text-dot">禁用</b></td>
+			</if>
+			<td>
+			<if condition="$al.role_id eq 1 ">
+				-x-x-x-
+			<else />
+				
+				<a href="__CONTROLLER__/editAdmin?admin_id={$al.id}" class="button bg-blue button-little">修改</a>
+				<a href="__CONTROLLER__/" class="button bg-dot  button-little">禁用</a>
+			</if>			
+		
+			</td>
+		</tr>
+		</volist>
+		
+	</table>	
+</div>

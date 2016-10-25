@@ -1,0 +1,139 @@
+
+<style type="text/css"> 
+	.table-over td{padding:4px;border:none;border-bottom:solid 1px #ddd; }
+</style>
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(26,'列表详细','store_menu')}
+	<hr />
+	<!-- 搜索 -->
+	<div class="search margin"> 
+		<div class="search-from alert"> 
+			<form method="post" action='' class="form-x form-auto">
+				<div class="form-group"> 
+					<div class="label"  > 
+						<label>教练姓名:</label> 
+					</div> 
+					<div class="field">
+						<html:input name='coach_name' required='no' class='input'  placeholder="教练姓名" style="width:160px;" value='{$map.coach_name}'  />	
+					</div> 
+			
+					<div class="label"> 
+						<label>教练联系方式:</label> 
+					</div> 
+					<div class="field">
+						<html:input name='mobile' required='no' class='input'  placeholder="教练联系方式" style="width:160px;" value='{$map.mobile}'  />	
+					</div> 
+					<div class="label"> 
+						<label for="password">录入时间:</label>
+					</div>
+					<div class="field">
+						<html:date  class='input' value='{$map.star_time}' required='no'  name='star_time' style='height: 34px;line-height: 20px;  '  />~
+						<html:date  class='input' value='{$map.end_time}' required='no' name='end_time' style='height: 34px;line-height: 20px; ' />
+					</div> 
+				</div> 
+				
+			
+				<div class="form-button">
+					<button class="button border-main  icon-search" type="submit"> 搜索</button> 
+			
+				</div> 	
+			</form>
+		</div>
+	</div>
+	<table class="table table-bordered table-hover table-striped radius ">
+		<tbody>
+			<tr>
+				<th colspan="5" rowspan="2">基础信息</th>
+				<th colspan="4">所教班级</th>
+				<th colspan="2">相关信息</th>
+				<th rowspan="2">操作</th>
+			</tr>
+			<tr>
+			  <th>所教班级</th>
+			  <th>上课时间</th>
+			  <th>班级人数</th>
+			  <th>已报名人数</th>
+			  <th>是否绑定道馆</th>
+			  <th>注册时间</th>
+			</tr>
+			<volist name="coachs_list" id="sl"> 
+			<tr>
+				<td rowspan="1">{++$key}</td>
+				<td rowspan="1">{$sl.nick_name}</td>
+				<td rowspan="1">性别:
+				<if condition="$sl.sex eq 1 ">
+				 <i class="icon-male text-blue"></i>(男)
+				<else />
+				  <i class="icon-female text-dot"></i>(女)
+				</if>
+				</td>
+				<td rowspan="1">年龄:{$sl.age}</td>
+				<td rowspan="1">联系手机:{$sl.mobile|default='暂无!'}</td>
+				
+				 
+				<td>暂无课程!</td>
+				<td>周一到周五 下午三点</td>
+				<td>30/人</td>
+				<td>15/人</td>
+				
+				
+				
+				
+	
+				<td rowspan="1">
+					<if condition="$sl.relation_status eq 1 ">
+					<span class="text-green">已绑定道馆</span>
+					<else />
+					<span class="text-dot">未绑定当前道馆</span>
+					</if>
+				</td>
+				<td rowspan="1">录入时间：{$sl.reg_time|date='Y-m-d H:i:s',###}</td>
+				<td rowspan="1">
+					<if condition="$sl.relation_status eq 1 ">
+					<a class="button border-blue button-little" href="#" onclick="unbing({$sl.coach_id})">与他/她解约</a> 
+					<else />
+					<a class="button border-blue button-little" href="#" onclick="bing({$sl.coach_id})">签约道馆</a> 
+					</if>
+				</td>
+			 
+			</tr>
+			</volist>
+      
+           
+        </tbody>
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>
+
+<script type="text/javascript"> 
+	var unbing=function(id){
+		$.post('__CONTROLLER__/unbing',{coach_id:id},function(data){
+			if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						//layer.closeAll();
+						window.location.reload();
+				});	
+			}else{
+				layer.msg(data.info,{icon:2});
+			}
+		
+		},'json');
+	};
+	var bing=function(id){
+		$.post('__CONTROLLER__/bing',{coach_id:id},function(data){
+			if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						//layer.closeAll();
+						window.location.reload();
+				});	
+			}else{
+				layer.msg(data.info,{icon:2});
+			}
+		
+		},'json');
+	};
+</script>

@@ -1,0 +1,14 @@
+<div class="margin padding">
+	<div class="alert "> 
+		<button class="button bg-dot button-little">错误:</button>
+		<ul class="list-unstyle margin"> 
+			<foreach name="error_msg" item="vo" >
+			<li>({$key}):{$vo}</li>
+			</foreach>
+		</ul>
+		<hr />
+		<button class="button bg-main button-little">正确:({$success_msg})个</button>
+		
+		<div class="text-center"><a class="button border-dot" href='__ACTION__'>返回</a></div>
+	</div>
+</div>

@@ -1,0 +1,111 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(27,'编辑','store_menu')}
+	<hr />
+	<form method="post"  action='__ACTION__' class="form-x"  enctype="multipart/form-data">
+	
+		<input type="hidden"  name='id'  value="{$member_info['id']}" />
+		<table class="table table-hover" style=''>
+		
+			<tr>
+				<td style="width:160px;">用户姓名:</td>
+				<td class="text-left">{$member_info['nick_name']}</td>
+			</tr>
+			<tr>
+				<td style="width:160px;">当前绑定学生:</td>
+				<td class="text-left">{$member_info['student_name']|default='暂无'}</td>
+			</tr>
+			
+			<tr>
+				<td>用户头像:</td>
+				<td style='text-align:left'>
+					<span class="button bg-yellow" id='img_upload'>展示图片</span>
+					<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+					<div id="img_preview">
+						{$album}
+					</div>
+				</td>
+			</tr>
+			
+			<tr> 
+				<td>电话号码:</td>
+				<td class="text-left"> 
+					<html:input name='mobile'  class='input display-inline-block' style='width:20%' value="{$member_info['mobile']}" datatype='m' />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>性别:</td>
+				<td style='text-align:left'>
+					<input name="sex" type="radio" value=1 <if condition="$member_info.sex eq 1 "> checked="checked" </if> />男
+					<input name="sex" type="radio" value=0 <if condition="$member_info.sex eq 0 "> checked="checked" </if> />女	
+				</td>
+			</tr>
+			
+
+			<tr>
+				<td>用户年龄:</td>
+				<td class="text-left">
+					<html:input name='age'  class='input display-inline-block' style='width:10%' value="{$member_info['age']}" datatype='n1-2' />
+				</td>
+				
+			</tr>
+		
+			
+			<tr> 
+				<td>出生日期:</td>
+				<td class="text-left"> 
+					<html:date  class='input' value='{$member_info.birth}' required='no'  name='birth' style='width:20%; height:34px;line-height:20px;'  />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>绑定学生状态:</td>
+				<td style="text-align:left">
+					<input name="student_status" type="radio" value=1 <if condition="$member_info.student_id neq 0 "> checked="checked" </if> />已绑定
+					<input name="student_status" type="radio" value=0 <if condition="$member_info.student_id eq 0 "> checked="checked" </if> />解除绑定(与当前绑定学生解绑)
+				</td>
+			</tr>
+			
+			
+			<tr class='hidden'>
+				<td>内容详情:</td>
+				<td>
+					<html:editor id="editor" name="content"  width='10%' content="{$member_info['content']}"  ></html:editor>
+				</td>
+			</tr>
+			<tr> 	
+				<td>用户状态:</td>
+				<td style="text-align:left">
+					<input name="status" type="radio" value=1 <if condition="$member_info.status eq 1 "> checked="checked" </if> />正常
+					<input name="status" type="radio" value=0 <if condition="$member_info.status eq 0 "> checked="checked" </if> />禁用
+				</td>
+			</tr>
+			
+		</table>
+		<div style='text-align:center' class="padding">
+			<button class="button button-big" type="submit"><span class="icon-edit text-blue"></span>提交修改</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info,{icon:2});
+				}
+			}
+		});
+	});
+</script>

@@ -1,0 +1,112 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(28,'列表详细','store_menu')}
+	<hr />
+	<!-- 搜索 -->
+	<div class="search margin"> 
+		<div class="search-from alert"> 
+			<form method="post" action='' class="form-x form-auto">
+				<div class="form-group"> 
+					<div class="label"  > 
+						<label>用户姓名:</label> 
+					</div> 
+					<div class="field">
+						<html:input name='nick_name' required='no' class='input'  placeholder="用户姓名" style="width:160px;" value='{$map.nick_name}'  />	
+					</div> 
+			
+					<div class="label"> 
+						<label>用户联系方式:</label> 
+					</div> 
+					<div class="field">
+						<html:input name='mobile' required='no' class='input'  placeholder="用户联系方式" style="width:160px;" value='{$map.mobile}'  />	
+					</div> 
+					<div class="label"> 
+						<label for="password">注册时间:</label>
+					</div>
+					<div class="field">
+						<html:date  class='input' value='{$map.star_time}' required='no'  name='star_time' style='height: 34px;line-height: 20px;  '  />~
+						<html:date  class='input' value='{$map.end_time}' required='no' name='end_time' style='height: 34px;line-height: 20px; ' />
+					</div> 
+				</div> 
+				<div class="form-group"> 
+					<div class="label"> 
+						<label for="password">是否绑定学生:</label>
+					</div>
+					<div class="field">
+						<select name="is_bing"  class="input">
+							<option value="0" >未绑定</option>
+							<option value="1" <if condition="$map.is_bing eq 1 ">selected="selected"  </if>  >已绑定</option>
+						</select>
+					</div>
+				</div>	
+			
+				<div class="form-button">
+					<button class="button border-main  icon-search" type="submit"> 搜索</button> 
+			
+				</div> 	
+			</form>
+		</div>
+	</div>
+	<table class="table table-bordered table-hover table-striped radius ">
+		<tbody>
+			<tr>
+				<th colspan="5" rowspan="2">基础信息</th>
+				<th colspan="4">绑定学生信息</th>
+				<th colspan="2">注册信息</th>
+				<th rowspan="2">操作</th>
+			</tr>
+			<tr>
+			  <th>学生姓名</th>
+			  <th>学生年龄</th>
+			  <th>学生性别</th>
+			  <th>所在道馆</th>
+			  <th>注册时间</th>
+			  <th>最后登录时间</th>
+			</tr>
+			<volist name="member_list" id="ml"> 
+			<tr>
+			
+				<td rowspan="1">{++$key}</td>
+				<td rowspan="1">{$ml.nick_name}</td>
+				<td rowspan="1">性别:
+				<if condition="$ml.sex eq 1 ">
+				 <i class="icon-male text-blue"></i>(男)
+				<else />
+				  <i class="icon-female text-dot"></i>(女)
+				</if>
+				</td>
+				<td rowspan="1">年龄:{$ml.age}</td>
+				<td rowspan="1">手机:{$ml.mobile|default='暂无!'}</td>
+		
+				<td>{$ml.student_name|default='暂无!'}</td>
+				<td>
+					{$ml.student_age|default='暂无!'}
+				</td>
+				<td>
+					<if condition="$ml.student_sex eq 1 ">
+					<i class="icon-male text-blue"></i>(男)
+					<else />
+					<i class="icon-female text-dot"></i>(女)
+					</if>
+				</td>
+				<td>{$ml.store_name|default='暂无!'}</td>
+				
+	
+				<td rowspan="1">{$ml.reg_time|date='Y-m-d H:i:s',###}</td>
+				<td rowspan="1">登录时间：{$ml.last_login_time|date='Y-m-d H:i:s',###}</td>
+				<td rowspan="1">
+					<a class="button border-blue button-little" href="__CONTROLLER__/edit?id={$ml.id}">编辑</a> 
+					<a class="button border-red button-little " href="javascript:;" onclick="itemDel({$ml.id},'__CONTROLLER__/del')">删除</a>
+				</td>
+			 
+			</tr>
+			</volist>
+      
+           
+        </tbody>
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

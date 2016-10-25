@@ -1,0 +1,45 @@
+<taglib name="html" />
+
+<div class="padding table-responsive">
+	{:crumbs(24,'列表详细')}
+	<hr />
+	<div> 
+		<table class="table table-hover table-striped"> 
+			<tr>
+				<th>ID</th>
+				<th>道馆名称</th>
+				<th>道馆品牌</th>
+				<th>道馆扫描二维码</th>
+				<th>状态</th>
+				<th>注册时间</th>
+				<th>操作</th>
+			</tr>
+			<volist name="store_list" id="sl"> 
+			<tr> 
+				<td>{$sl.store_id}</td>
+				<td>{$sl.store_name}</td>
+				<td>{$sl.brand_name}</td>
+				<td><img src="__CONTROLLER__/getStoreCode?store_id={$sl.store_id}" alt="" width=60 height=60  onclick="showImage('__CONTROLLER__/getStoreCode?store_id={$sl.store_id}')" style='cursor:pointer' /></td>
+				<td> 
+					<if condition="$sl.store_status eq 1 ">
+						<b class="text-main">正常</b>
+					<else />
+						<b class="text-dot">闭馆</b>
+					</if>
+				</td>
+				<td>{$sl.time|date='Y-m-d H:i:s',###}</td>
+				<td> 
+					<a href="__CONTROLLER__/edit?store_id={$sl.store_id}" class='button border-blue button-little'>修改</a>
+					<a href="__CONTROLLER__/del?store_id={$sl.store_id}" class='button border-dot button-little '>删除</a>
+				</td>
+			</tr>
+			</volist>
+			
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+
+	
+	/**/
+</script>

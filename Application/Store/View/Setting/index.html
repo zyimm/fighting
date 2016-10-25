@@ -1,0 +1,67 @@
+<taglib name="html" />
+<div class="padding table-responsive">
+	{:crumbs(15,'场馆信息','store_menu')}
+	<hr />
+	<div class="panel">
+		<div class="panel-head "><h4 class='icon-edit '>信息修改</h4></div>
+		<div class="panel-body">
+			<form method="post" action='' class="form-x"  enctype="multipart/form-data" />
+				<input type="hidden" name='store_id' value='{$store_info.store_id}'  />
+				<table class="table"> 
+				
+					<tr>
+						<td style='width:160px;'>场馆信息标题:</td>
+						<td style="text-align:left">
+							<html:input name='store_title'  class='input display-inline-block' style='width:360px;'  placeholder="标题"  value='{$store_info.store_title}' datatype='*' /></td>
+
+						</td>
+					</tr>	
+				
+					<tr>
+						<td>缩略图:</td>
+						<td style="text-align:left">
+							<span class="button bg-yellow button-little" id='img_upload'>展示图片(355x150)</span>
+							<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+							<div id="img_preview">
+								{$album}
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>内容详情:</td>
+						<td>
+							 <html:editor id="editor" name="content" width='80%'   content="{$store_info['content']}"  ></html:editor>
+						</td>
+					</tr>
+			
+					<tr>
+						<td colspan="2"><input value="保存" class="button bg-blue" type="submit"></td>
+					</tr>
+				</table>
+			</form>	
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000},function(){
+						layer.closeAll();
+						//window.location.href='__CONTROLLER__/adminList';
+					});	
+				}else{
+					layer.msg(data.info);
+				}
+			}
+		});
+	});
+</script>
+
+
+</div>

@@ -1,0 +1,156 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<link rel="stylesheet" href="/assets/Admin/css/select.min.css" />
+<div class="padding table-responsive">
+	{:crumbs(45,'编辑/添加','store_menu')}
+	<hr />
+	<form method="post"  action='__ACTION__' class="form-x"  enctype="multipart/form-data">
+	
+		<input type="hidden"  name='course_id'  value="{$course_info['course_id']}" />
+		<table class="table table-hover" style=''>
+		
+			<tr>
+				<td style="width:160px;">课程标题:</td>
+				<td class="text-left">
+					<html:input name='course_title' class='input  display-inline-block' style="width:60%"  value="{$course_info['course_title']}"  datatype='*2-48'/></td>
+			</tr>
+			
+			<tr>
+				<td>课程封面图:</td>
+				<td style='text-align:left'>
+					<span class="button bg-yellow" id='img_upload'>课程封面</span>
+					<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+					<div id="img_preview">
+						{$album}
+					</div>
+				</td>
+			</tr>
+			
+			<tr> 
+				<td>课程教室:</td>
+				<td class="text-left">
+					<html:input name='course_home' class='input  display-inline-block' style="width:60%"  value="{$course_info['course_home']}"  datatype='*2-48'/>
+					
+				</td>
+
+			</tr>
+			
+			<tr>
+				<td style="width:160px;">任课教练:</td>
+				<td class="text-left">
+				
+					<select class="js-example-basic-multiple" multiple="multiple" name="coach"  class="input" style="width:70%" >
+                        {$html}
+                    </select>
+				</td>
+			</tr>
+			
+			<tr> 	
+				<td>上课时间:</td>
+				<td style="text-align:left">
+					<div class="course-time float-left course-time-ul" style="288px;"> 
+						<div class="course-time-li margin-small-top">
+							<select class="input float-left " style='width:88px;' name="week_day[]" nullmsg="请输入上课时间！" >
+							  <option value="1">周一</option>
+							  <option value="2">周二</option>
+							  <option value="3">周三</option>
+							  <option value="4">周四</option>
+							  <option value="5">周五</option>
+							  <option value="6">周六</option>
+							  <option value="0">周日</option>
+							</select>
+							<div class="input-group float-left  margin-small-right margin-small-left" style='width:200px;'>
+								<input class="input" name="start[]"  type="number"  max='23' min="1" />
+								<span class="addon" style="border-left:none;border-right:none;">时</span>
+								<input class="input"  type="number" name="end[]" max='59' min="0"  type="text" />
+								<span class="addon">分</span>&nbsp;&nbsp;~
+							</div>
+							<div class="input-group float-left  margin-small-right margin-small-left" style='width:200px;'>
+								<input class="input" name="start[]"  type="number"  max='23' min="1" />
+								<span class="addon" style="border-left:none;border-right:none;">时</span>
+								<input class="input"  type="number" name="end[]" max='59' min="0"  type="text" />
+								<span class="addon">分</span>
+							</div>
+							<span class="button icon-minus-circle bg-dot minus-course-time " style="cursor:pointer;" onclick="minusCourseTime(this)" ></span>
+							<div class="clearfix"></div>
+						</div>
+						
+					</div>
+					<span class="button icon-plus bg-green margin-small-left margin-small-top "  id='add-course-time' style="cursor:pointer;" ></span>
+					
+				</td>
+			</tr>
+			
+			<td>额定人数(0 为无限制)</td>
+			<td style="text-align:left">
+				<html:input name="course_students" value='{$course_info.course_students}'  class='input display-inline-block' style='width:120px;' type='number' datatype='n1-4' />
+			</td>
+		
+			
+			<tr>
+				<td>课程详情:</td>
+				<td>
+					<html:editor id="editor" name="course_content"  width='80%' content="{$course_info['course_content']}"  ></html:editor>
+				</td>
+			</tr>
+			<tr> 	
+				<td>是否开启:</td>
+				<td style="text-align:left">
+					<input name="status" type="radio" value=1 <if condition="$course_info.status eq 1 "> checked="checked" </if> />开启
+					<input name="status" type="radio" value=0 <if condition="$course_info.status eq 0 "> checked="checked" </if> />关闭	
+				</td>
+			</tr>
+			
+		</table>
+		<div style='text-align:center' class="padding">
+			<button class="button button-big" type="submit"><span class="icon-edit text-blue"></span>提交修改</button>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src='/assets/Admin/js/select.min.js'></script>
+<script type="text/javascript"> 
+	var html = '';
+	$(".js-example-basic-multiple").select2({
+		placeholder: "请选择需要加入的教练",
+    });
+	$(function(){
+		
+		html = $('#add-course-time').siblings('div.course-time-ul').html();
+	
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info,{icon:2});
+				}
+			}
+		});
+		
+		$("#add-course-time").click(function(){
+			
+			//console.log(html);
+			$(this).siblings('div.course-time-ul').append(html);
+		});
+		
+	
+		
+	});
+	
+		
+	var minusCourseTime = function(o){
+		var _this  = o;
+		console.log($(_this).parent('div.course-time-li').siblings().length);
+		if($(_this).parent('div.course-time-li').siblings().length>0){
+			$(_this).parent('div.course-time-li').remove();
+		}else{
+			layer.alert('已经不能移除了!');
+		}
+	};
+</script>

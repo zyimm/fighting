@@ -1,0 +1,54 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(44,'列表详细','store_menu')}
+	<hr />
+	
+	<table class="table table-bordered table-hover table-striped">
+		<tbody> 
+			<tr>
+				<th>考试标题</th>
+				<th>缩略图</th>
+				<th>所属道馆</th>
+				<th>考试时间</th>
+				<th>报名时间</th>
+				<th>已报名人数</th>
+				<th>是否开启</th>
+				<th>相关操作</th>
+			</tr>
+			<volist name="exam_list" id="exam">
+			<tr>
+				<td>{$exam.exam_title}</td>
+				<td><img src="{$exam.exam_image}" alt="" width=40 height=40 onclick="showImage('{$exam.exam_image}')" /></td>
+				<td>{:get_store_name($exam['store_id'])}</td>
+				<td>{$exam.exam_time}</td>
+				<td>{$exam.exam_apply_time}</td>
+				<td>{$exam.apply_num}/人</td>
+				
+				<td>
+				<if condition="$exam.status eq 1 ">
+					<tag class="badge bg-main">开启</tag>
+				<else />
+					<tag class="badge bg-dot">关闭</tag>
+				</if>
+				</td>
+				<td>
+				 -x-x-x-
+					<!-- <a href="__CONTROLLER__/edit?exam_id={$exam.exam_id}" class="button bg-blue button-little">编辑</a>
+					<if condition="$exam.status eq 1 ">
+					<a href="__CONTROLLER__/apply?exam_id={$exam.exam_id}" class="button bg-main button-little">查看报名列表</a>
+					<else />
+					<a href="javascript:alert('该考试处于关闭状态!')" class="button bg-gray button-little">查看报名列表</a>
+					</if>
+					<a href="javascript:void(0)" onclick="itemDel({$exam.exam_id},'__CONTROLLER__/del');" class="button bg-dot button-little">删除</a> -->
+				</td>
+			</tr>
+			</volist>
+			
+		</tbody>
+           
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

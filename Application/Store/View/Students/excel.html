@@ -1,0 +1,33 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+
+<div class="padding table-responsive">
+	{:crumbs(32,'批量导入','store_menu')}
+	<hr />
+	<div class="alert">
+		<button class="button bg-main  icon-cloud-upload" >&nbsp;excel导入</button>
+		<ol class="padding"> 
+			<li>上传过程中请勿断开连接!</li> 
+			<li>上传时间受上传数据量服务器配置相关影响 一般200条 1~5 分钟 请耐心等待!</li> 
+		</ol>
+	</div>
+	<div class="margin padding"> 
+		<div class="margin text-main">(1)第一步 点击下面【下载模板】下载指定excel模版!</div>
+		<a href="__ROOT__/uploads/excel/demo.xls" class="button"><i class="icon-cloud-download"></i>&nbsp;下载模板</a>
+		<form method="post"  action='__ACTION__' class="form-x padding-top"  enctype="multipart/form-data">
+			<div class="margin text-yellow">(2)第二步 点击下面【导入文件】上传已经填好信息模版!</div>
+			<div class="form-group">
+				
+				<div class="field">
+					<a class="button input-file" href="javascript:void(0);">+ 导入文件<input size="100" type="file" name='excel'></a>
+				</div>
+				
+			</div>
+			<div class="margin text-dot">(3)第三步 点击下面【确定上传】 上传已经填好信息模版 等待系统返回！</div>
+			<div class="clearfix">
+				<button class="button" type="submit"><i class="icon-cloud-upload"></i>&nbsp;确定上传</button>
+			</div>
+		</form>
+	</div>
+	
+</div>

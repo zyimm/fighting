@@ -1,0 +1,34 @@
+<div class="padding table-responsive">
+	{:crumbs(8)}
+	<hr />
+	<table class="table table-bordered table-hover table-striped radius ">
+		<tbody>
+			<tr>
+				<th>版本号</th>
+				<th>升级地址</th>
+				<th>类型</th>
+				<th>版本code</th>
+				<th>是否强制更新</th>
+				<th>管理操作</th>
+			</tr>
+			<volist name="version" id="v"> 
+			<tr>
+				<td>{$v.version}</td>
+				<td>{$v.url}</td>
+				<if condition="$v.type eq 1 ">
+				<td><i class="icon-android text-main text-big"></i>Android(安卓)</td>
+				<else />
+				<td><i class="icon-apple text-main text-big"></i>ios(苹果)</td>
+				</if>
+				<td>{$v.code}</td>
+				<if condition="$v.is_update eq 1 ">
+				<td>是</td>
+				<else />
+				<td>否</td>
+				</if>
+				<td><a  href='/admin/Setting/appVersion?id={$v.id}' class="button button-little border-main icon-edit">编辑</a></td>	
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+</div>

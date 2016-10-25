@@ -1,0 +1,129 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(35,'编辑/添加','store_menu')}
+	<hr />
+	<form method="post"  action='__ACTION__' class="form-x"  enctype="multipart/form-data">
+	
+		<input type="hidden"  name='coach_id'  value="{$coach_info['coach_id']}" />
+		<table class="table table-hover" style=''>
+		
+			<tr>
+				<td style="width:160px;">教练姓名:</td>
+				<td class="text-left"><html:input name='coach_name' class='input  display-inline-block' style="width:20%"  value="{$coach_info['coach_name']}"  datatype='*2-8'/></td>
+			</tr>
+			
+			<tr>
+				<td>教练头像:</td>
+				<td style='text-align:left'>
+					<span class="button bg-yellow" id='img_upload'>展示图片</span>
+					<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+					<div id="img_preview">
+						{$album}
+					</div>
+				</td>
+			</tr>
+			
+			<tr> 
+				<td>电话号码:</td>
+				<td class="text-left"> 
+					<html:input name='mobile'  class='input display-inline-block' style='width:20%' value="{$coach_info['mobile']}" datatype='m' />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>性别:</td>
+				<td style='text-align:left'>
+					<input name="coach_sex" type="radio" value=1 <if condition="$coach_info.coach_sex eq 1 "> checked="checked" </if> />男
+					<input name="coach_sex" type="radio" value=0 <if condition="$coach_info.coach_sex eq 0 "> checked="checked" </if> />女	
+				</td>
+			</tr>
+			
+
+			<tr>
+				<td>教练年龄:</td>
+				<td class="text-left">
+					<html:input name='coach_age'  class='input display-inline-block' style='width:10%' value="{$coach_info['coach_age']}" datatype='n1-2' />
+				</td>
+				
+			</tr>
+			<tr>
+				<td>座右铭:</td>
+				<td class="text-left"> 
+					<html:input name='motto'  class='input display-inline-block' style='width:60%' value="{$coach_info['motto']}" datatype='*' />
+				</td>
+			</tr>
+			<tr>
+				<td>家庭住址:</td>
+				<td class="text-left"> 
+					<html:input name='address'  class='input display-inline-block' style='width:60%' value="{$coach_info['address']}" datatype='*' />
+
+				</td>
+			</tr>
+			<tr> 
+				<td>个人荣誉:</td>
+				<td class="text-left">
+					<textarea name="honor" class='input'  rows="4" cols="50">{$coach_info.honor}</textarea>
+				</td>
+			</tr>
+			<tr> 
+				<td>个人简历:</td>
+				<td class="text-left">
+					<textarea name="resume" class='input'  rows="4" cols="50">{$coach_info.resume}</textarea>
+				</td>
+			</tr>
+			<tr> 
+				<td>个人经验:</td>
+				<td class="text-left">
+					<textarea name="exp"  class='input' rows="4" cols="50">{$coach_info.exp}</textarea>
+				</td>
+			</tr>
+			
+			<tr> 
+				<td>出生日期:</td>
+				<td class="text-left"> 
+					<html:date  class='input' value='{$coach_info.birth}' required='no'  name='birth' style='width:20%; height:34px;line-height:20px;'  />
+				</td>
+			</tr>
+			
+			
+			<tr class='hidden'>
+				<td>内容详情:</td>
+				<td>
+					<html:editor id="editor" name="content"  width='10%' content="{$coach_info['content']}"  ></html:editor>
+				</td>
+			</tr>
+			<tr> 	
+				<td>教练状态:</td>
+				<td style="text-align:left">
+					<input name="relation_status" type="radio" value=1 <if condition="$coach_info.relation_status eq 1 "> checked="checked" </if> />正常(与当前道馆绑定)
+					<input name="relation_status" type="radio" value=0 <if condition="$coach_info.relation_status eq 0 "> checked="checked" </if> />禁用(与当前道馆解绑)
+				</td>
+			</tr>
+			
+		</table>
+		<div style='text-align:center' class="padding">
+			<button class="button button-big" type="submit"><span class="icon-edit text-blue"></span>提交修改</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info,{icon:2});
+				}
+			}
+		});
+	});
+</script>

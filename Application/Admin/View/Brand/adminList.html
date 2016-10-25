@@ -1,0 +1,39 @@
+
+<div class="padding table-responsive">
+	{:crumbs(25,'详细')}
+	<div class="alert"> 
+		<a href="__CONTROLLER__/addAdmin" class="button border-main icon-plus-square" type="submit"> 添加品牌管理员</a>
+	</div>
+	<hr />
+	<table class="table table-bordered table-hover table-striped radius ">
+		<tbody>
+			<tr>
+				<th>品牌名称</th>
+				<th>用户名</th>
+				<th>状态</th>
+				<th>到期时间</th>
+				<th>上一次登录时间</th>
+				<th>管理操作</th>
+			</tr>
+			<volist name="admin_list" id="v"> 
+			<tr>
+				<td>{$v.brand_name}</td>
+				<td>{$v.user_name}</td>
+				<td> 
+					<if condition="$v.status eq 1 ">
+						<span class="text-green">正常</span>
+					<else />
+						<span class="text-dot">关闭</span>
+					</if>
+				</td>
+				<td>{$v.expire_time|date='Y-m-d H:i:s',###}</td>
+				<td>{$v.login_time|date='Y-m-d H:i:s',###}</td>
+				<td>
+					<a class="button button-little border-main icon-edit" href='/admin/brand/editAdmin.html?admin_id={$v.id}' >编辑</a>
+					<a class="button button-little border-dot icon-trash" href="javascript:void(0)" onclick="itemDel({$v.id},'__CONTROLLER__/delAdmin');" >删除</a>
+				</td>	
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+</div>

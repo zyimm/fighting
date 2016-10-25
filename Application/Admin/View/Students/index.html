@@ -1,0 +1,111 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(28,'列表详细','store_menu')}
+	<hr />
+	<!-- 搜索 -->
+	<div class="search margin"> 
+		<div class="search-from alert"> 
+			<form method="post" action='' class="form-x form-auto">
+				<div class="form-group"> 
+					<div class="label"  > 
+						<label>学员姓名:</label> 
+					</div> 
+					<div class="field">
+						<html:input name='student_name' required='no' class='input'  placeholder="学员姓名" style="width:160px;" value='{$map.student_name}'  />	
+					</div> 
+			
+					<div class="label"> 
+						<label>家长联系方式:</label> 
+					</div> 
+					<div class="field">
+						<html:input name='mobile' required='no' class='input'  placeholder="学员联系方式" style="width:160px;" value='{$map.mobile}'  />	
+					</div> 
+					<div class="label"> 
+						<label for="password">录入时间:</label>
+					</div>
+					<div class="field">
+						<html:date  class='input' value='{$map.star_time}' required='no'  name='star_time' style='height: 34px;line-height: 20px;  '  />~
+						<html:date  class='input' value='{$map.end_time}' required='no' name='end_time' style='height: 34px;line-height: 20px; ' />
+					</div> 
+				</div> 
+				<div class="form-group"> 
+					<div class="label"> 
+						<label for="password">学员等级:</label>
+					</div>
+					<div class="field">
+						<html:select id='level_id' name='level_id'  selected="map['level_id']"  options='level'/>	
+					</div>
+				</div>	
+			
+				<div class="form-button">
+					<button class="button border-main  icon-search" type="submit"> 搜索</button> 
+			
+				</div> 	
+			</form>
+		</div>
+	</div>
+	<table class="table table-bordered table-hover table-striped radius ">
+		<tbody>
+			<tr>
+				<th colspan="7" rowspan="2">基础信息</th>
+				<th colspan="5">班级</th>
+				<th colspan="2">经办信息</th>
+				<th rowspan="2">操作</th>
+			</tr>
+			<tr>
+			  <th>班级名称</th>
+			  <th>卡种</th>
+			  <th>会员卡信息</th>
+			  <th>所属道馆</th>
+			  <th>状态</th>
+			  <th>经办人</th>
+			  <th>经办时间</th>
+			</tr>
+			<volist name="students_list" id="sl"> 
+			<tr>
+			
+				<td rowspan="1">{++$key}</td>
+				<td rowspan="1">{$sl.student_name}</td>
+				<td rowspan="1">性别:
+				<if condition="$sl.student_sex eq 1 ">
+				 <i class="icon-male text-blue"></i>(男)
+				<else />
+				  <i class="icon-female text-dot"></i>(女)
+				</if>
+				</td>
+				<td rowspan="1">年龄:{$sl.student_age}</td>
+				<td rowspan="1">家长手机:{$sl.parent_mobile|default='暂无!'}</td>
+				<td rowspan="1">学号:{$sl.student_no_alias|default='暂无!'}</td>
+				<td rowspan="1">当前段位:<b class="button border-green button-little"><?php echo $level[$sl['level_id']] ?></b> </td>
+				<td>暂无课程!</td>
+				<td>
+					<span style="color: orange;">[{$sl.card_type}]</span>
+				</td>
+				<td>{$sl['card_info']['info']}</td>
+				<td>{$sl.store_name}</td>
+				<td>
+					<if condition="$sl.student_status eq 1 ">
+					<span class="text-green">正常</span>
+					<else />
+					<span class="text-dot">冻结</span>
+					</if>
+				</td>
+	
+				<td rowspan="1">{$sl.user_name}</td>
+				<td rowspan="1">录入时间：{$sl.operator_time|date='Y-m-d H:i:s',###}</td>
+				<td rowspan="1">-x-x-x-
+					<!-- <a class="button border-blue button-little" href="__CONTROLLER__/edit?student_id={$sl.student_id}">编辑</a> 
+					<a class="button border-red button-little " href="javascript:;" onclick="itemDel({$sl.student_id},'__CONTROLLER__/del')">删除</a> -->
+				</td>
+			 
+			</tr>
+			</volist>
+      
+           
+        </tbody>
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

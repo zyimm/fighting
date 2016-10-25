@@ -1,0 +1,89 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(38,'编辑/添加','store_menu')}
+	<hr />
+	<form method="post"  action='__ACTION__' class="form-x"  enctype="multipart/form-data">
+	
+		<input type="hidden"  name='activity_id'  value="{$activity_info['activity_id']}" />
+		<table class="table table-hover" style=''>
+		
+			<tr>
+				<td style="width:160px;">活动标题:</td>
+				<td class="text-left">
+					<html:input name='activity_title' class='input  display-inline-block' style="width:60%"  value="{$activity_info['activity_title']}"  datatype='*2-48'/></td>
+			</tr>
+			
+			<tr>
+				<td>活动封面图:</td>
+				<td style='text-align:left'>
+					<span class="button bg-yellow" id='img_upload'>活动封面</span>
+					<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+					<div id="img_preview">
+						{$album}
+					</div>
+				</td>
+			</tr>
+			
+			<tr> 	
+				<td>活动起止时间:</td>
+				<td style="text-align:left">
+					<html:date  class='input display-inline-block' format='YYYY-MM-DD hh:mm:ss' value='{$activity_info.star_time}' required='no'  name='star_time' style=' width:16%;height: 34px;line-height: 20px;  '  />~
+					<html:date  class='input display-inline-block' format='YYYY-MM-DD hh:mm:ss' value='{$activity_info.end_time}' required='no' max='+2000' name='end_time' style='width:16%;height: 34px;line-height: 20px; ' />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>报名起止时间</td>
+				<td style="text-align:left">
+					<html:date  class='input display-inline-block' format='YYYY-MM-DD hh:mm:ss' value='{$activity_info.star_apply_time}' required='no'  name='star_apply_time' style=' width:16%;height: 34px;line-height: 20px;  '  />~
+					<html:date  class='input display-inline-block' format='YYYY-MM-DD hh:mm:ss' value='{$activity_info.end_apply_time}' required='no' max='+2000' name='end_apply_time' style='width:16%;height: 34px;line-height: 20px; ' />
+				</td>		
+			</tr>
+			<tr> 
+				<td>额定人数(0 为无限制)</td>
+				<td style="text-align:left">
+					<html:input name="activity_nums" value='{$activity_info.activity_nums}'  class='input display-inline-block' style='width:120px;' type='number' datatype='n1-4' />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>活动详情:</td>
+				<td>
+					<html:editor id="editor" name="activity_content"  width='80%' content="{$activity_info['activity_content']}"  ></html:editor>
+				</td>
+			</tr>
+			<tr> 	
+				<td>是否开启:</td>
+				<td style="text-align:left">
+					<input name="status" type="radio" value=1 <if condition="$activity_info.status eq 1 "> checked="checked" </if> />开启
+					<input name="status" type="radio" value=0 <if condition="$activity_info.status eq 0 "> checked="checked" </if> />关闭	
+				</td>
+			</tr>
+			
+		</table>
+		<div style='text-align:center' class="padding">
+			<button class="button button-big" type="submit"><span class="icon-edit text-blue"></span>提交修改</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info,{icon:2});
+				}
+			}
+		});
+	});
+</script>

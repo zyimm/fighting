@@ -1,0 +1,57 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(37,'列表详细','store_menu')}
+	<hr />
+	
+	<table class="table table-bordered table-hover table-striped">
+		<tbody> 
+			<tr>
+				<th>序号</th>
+				<th>学生姓名</th>
+				<th>学生年龄</th>
+				<th>学生性别</th>
+				<th>家长姓名</th>
+				<th>联系方式</th>
+				<th>审核状态</th>
+				<th>相关操作</th>
+			</tr>
+			<volist name="apply_list" id="apply">
+			<tr>
+				<td>{++$key}</td>
+				<td>{$apply.student_name}</td>
+				<td>{$apply.student_age}</td>
+				<td>
+					<if condition="$apply.student_sex eq 1 ">
+					 <i class="icon-male text-blue"></i>(男)
+					<else />
+					  <i class="icon-female text-dot"></i>(女)
+					</if>
+				</td>	
+				<td>{$apply.nick_name}</td>
+				<td>{$apply.mobile}</td>
+				<td>
+				<if condition="$apply.status eq 1 ">
+					<tag class="badge bg-main">已审核</tag>
+				<else />
+					<tag class="badge bg-dot">未审核</tag>
+				</if>
+				</td>
+				<td>
+				<if condition="$apply.status eq 1 ">
+					-x-x-x
+				<else />
+					<a href="__CONTROLLER__/doApply?apply_id={$apply.apply_id}" class="button bg-blue button-little">审核</a>
+					<a href="javascript:void(0)" onclick="itemDel({$apply.apply_id},'__CONTROLLER__/delApply');" class="button bg-dot button-little">删除</a>
+				</if>
+				</td>
+			</tr>
+			</volist>
+			
+		</tbody>
+           
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

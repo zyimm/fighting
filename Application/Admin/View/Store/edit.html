@@ -1,0 +1,51 @@
+<taglib name="html" />
+
+<div class="padding table-responsive">
+	{:crumbs(24,'列表详细')}
+	<hr />
+	<div class="panel">
+		<div class="panel-head bg-main"><h4 class='icon-edit '>编辑/添加道馆</h4></div>
+		<div class="panel-body">
+			<form method="post" action='' />
+				<input type="hidden" name='store_id' value='{$store_info.store_id}' />
+				<table class="table"> 
+					<tr>
+						<td>道馆名称:</td>
+						<td><html:input name='store_name' required='no' class='input width-250'  placeholder="道馆名称"  value='{$store_info.store_name}'  /></td>
+					</tr>
+					<tr>
+						<td>道馆品牌:</td>
+						<td style="text-align:left">
+							<html:select id='brand_id' name='brand_id'  selected="store_info['brand_id']"  options='brand'/>	
+							
+						</td>
+					</tr>
+					<tr> 
+						<td>道馆类别:</td>
+						<td style="text-align:left">
+							<input name="store_type" type="radio" value=1 <if condition="$store_info.store_type eq 1 ">  checked="checked" </if> />总部
+							<input name="store_type" type="radio" value=0 <if condition="$store_info.store_type eq 0 "> checked="checked" </if> />无
+						</td>
+						
+					</tr>
+					<tr> 
+						
+						<td>道馆状态:</td>
+						<td style="text-align:left">
+					
+							<input name="store_status" type="radio" value=1 <if condition="$store_info.store_status eq 1 ">  checked="checked" </if> />启用
+							<input name="store_status" type="radio" value=0 <if condition="$store_info.store_status eq 0 "> checked="checked" </if> />禁用
+							
+						</td>
+					
+					</tr>
+					<tr>
+						<td colspan="2"><input value="保存" class="button bg-blue" type="submit"></td>
+					</tr>
+
+				</table>
+			</form>	
+		</div>
+	</div>
+</div>
+
