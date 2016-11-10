@@ -143,10 +143,28 @@ class BadgeController extends CommonController
                 <img src='{$badge_info['badge_icon_disable']}' alt=''  class='radius-big' width='88' height='88' />
                 </div>";
             }
-            
+         
             $this->assign('album', $album);
             $this->assign('badge_info',$badge_info);
             $this->display('edit');
+        }
+    }
+    public function del()
+    {
+        $id=(int)$_REQUEST['id'];
+        if(empty($id)){
+            $this->error('数据id不存在！');
+        }else{
+            $model = D('Badge');
+            $map = [
+                'badge_id' =>$id,
+              
+            ];
+            if($model->where($map)->setField('is_del','1')){
+                $this->success('删除成功!');
+            }else{
+                $this->error('删除失败！');
+            }
         }
     }
     

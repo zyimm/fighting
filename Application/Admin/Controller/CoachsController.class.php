@@ -29,16 +29,11 @@ class CoachsController extends CommonController
             );
             $search['student_name'] = urlencode($_REQUEST['student_name']);
         }
-        if (!empty($_REQUEST['level_id'])) {
-            $map['s.level_id'] = intval($_REQUEST['level_id']);
-            $search['level_id'] = $map['level_id'];
-        }
+       
         
         if (!empty($_REQUEST['mobile'])) {
-            $map['s.parent_mobile'] = $_REQUEST['mobile'];
-            $map['s.self_mobile'] = $_REQUEST['mobile'];
-            $map['_logic'] = 'or';
-            $search['level_id'] = $_REQUEST['mobile'];
+            $map['m.mobile'] = $_REQUEST['mobile'];
+            $search['mobil'] = $_REQUEST['mobile'];
         }
         
         $_REQUEST['star_time'] = empty($_REQUEST['star_time'])?'2015-01-01':$_REQUEST['star_time'];
@@ -57,7 +52,8 @@ class CoachsController extends CommonController
        
         
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
-        $field = 'm.id as coach_id,cs.relation_status,m.mobile,m.sex,m.age,m.nick_name,m.address_desc,m.reg_time';
+        $field = 'm.id as coach_id,cs.relation_status,m.mobile,
+                  m.sex,m.age,m.nick_name,m.address,m.reg_time';
         $row = $model->getCoachsList($map, $field, $search,$page_now);
         
        // dump($row);exit;

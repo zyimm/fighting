@@ -1,16 +1,80 @@
 <?php
 
+/*************************************************
+ *                    公共函数                                                    *
+ *************************************************/
 /**
- * 公共函数
+ * 是否移动客户端
+ * @return boolean
  */
+function is_mobile_client()
+{
+    // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
+    if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
+        return TRUE;
+    }
+    // 如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
+    if (isset($_SERVER['HTTP_VIA'])) {
+        return stristr($_SERVER['HTTP_VIA'], "wap") ? TRUE : FALSE; // 找不到为flase,否则为TRUE
+    }
+    // 判断手机发送的客户端标志,兼容性有待提高
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        $clientkeywords = [
+            'mobile',
+            'nokia',
+            'sony',
+            'ericsson',
+            'mot',
+            'samsung',
+            'htc',
+            'sgh',
+            'lg',
+            'sharp',
+            'sie-',
+            'philips',
+            'panasonic',
+            'alcatel',
+            'lenovo',
+            'iphone',
+            'ipod',
+            'blackberry',
+            'meizu',
+            'android',
+            'netfront',
+            'symbian',
+            'ucweb',
+            'windowsce',
+            'palm',
+            'operamini',
+            'operamobi',
+            'openwave',
+            'nexusone',
+            'cldc',
+            'midp',
+            'wap'
+        ];
+        // 从HTTP_USER_AGENT中查找手机浏览器的关键字
+        if (preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+            return TRUE;
+        }
+    }
+    if (isset($_SERVER['HTTP_ACCEPT'])) { // 协议法，因为有可能不准确，放到最后判断
+                                          // 如果只支持wml并且不支持html那一定是移动设备
+                                          // 如果支持wml和html但是wml在html之前则是移动设备
+        if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== FALSE) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === FALSE || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
 
 /**
  * 导入excel文件
- * 
+ *
  * @param string $file            
  * @return array excel文件内容数组
  */
-function import_excel ($file = '')
+function import_excel($file = '')
 {
     // 判断文件是什么格式
     $type = pathinfo($file);
@@ -43,10 +107,9 @@ function import_excel ($file = '')
         // 从A列读取数据
         for ($k = 'A'; $k <= $total_columns; $k ++) {
             // 读取单元格
-            $value = trim(
-                    $php_excel->getActiveSheet()
-                        ->getCell("{$k}{$j}")
-                        ->getValue());
+            $value = trim($php_excel->getActiveSheet()
+                ->getCell("{$k}{$j}")
+                ->getValue());
             if (! empty($value)) {
                 $excel_data[$j][] = $value;
             } else {
@@ -59,7 +122,7 @@ function import_excel ($file = '')
 
 /**
  * 上传文件
- * 
+ *
  * @param string $path
  *            上传路径
  * @param array $config
@@ -68,29 +131,29 @@ function import_excel ($file = '')
  *            允许后缀
  * @return string|boolean|string[]|mixed[] 保存路径
  */
-function file_upload ($path = '', $config = array(), $ext = array())
+function file_upload($path = '', $config = array(), $ext = array())
 {
     if (empty($path))
         $path = './Public/Uploads/';
     if (empty($ext))
         $ext = [
-                'jpg',
-                'gif',
-                'png',
-                'jpeg'
+            'jpg',
+            'gif',
+            'png',
+            'jpeg'
         ];
     if (empty($config)) {
         $config = [
-                'maxSize' => 3145728,
-                'saveName' => [
-                        'uniqid',
-                        ''
-                ],
-                'autoSub' => true,
-                'subName' => [
-                        'date',
-                        'Ymd'
-                ]
+            'maxSize' => 3145728,
+            'saveName' => [
+                'uniqid',
+                ''
+            ],
+            'autoSub' => true,
+            'subName' => [
+                'date',
+                'Ymd'
+            ]
         ];
     }
     $config['rootPath'] = './';
@@ -108,45 +171,6 @@ function file_upload ($path = '', $config = array(), $ext = array())
 }
 
 /**
- * 验证手机号
- *
- * @param string $mobile            
- * @return boolean
- */
-function check_mobile ($mobile = '')
-{
-    if (strlen($mobile) != 11) {
-        return false;
-    }
-    if (preg_match(
-            "/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|14[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/", 
-            $mobile)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
- * 邮箱验证
- *
- * @param string $email            
- * @return boolean
- */
-function check_email ($email = '')
-{
-    if (mb_strlen($email) < 5) {
-        return false;
-    }
-    $res = "/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/";
-    if (preg_match($res, $email)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
  * 检测输入的验证码是否正确，$code为用户输入的验证码字符串
  *
  * @author zyimm
@@ -154,7 +178,7 @@ function check_email ($email = '')
  * @param string $id            
  * @return boolean
  */
-function check_verify ($code, $id = '')
+function check_verify($code, $id = '')
 {
     $verify = new \Think\Verify();
     return $verify->check($code, $id);
@@ -162,11 +186,10 @@ function check_verify ($code, $id = '')
 
 /**
  * 对内容进行安全处理
- *
- * @param string|array $string        要处理的字符串或者数组
- * @param $string $flags     指定标记
+ * @param string|array $string 要处理的字符串或者数组
+ * @param $string $flags 指定标记
  */
-function dhtmlspecialchars ($string, $flags = null)
+function dhtmlspecialchars($string, $flags = null)
 {
     if (is_array($string)) {
         foreach ($string as $key => $val) {
@@ -174,22 +197,19 @@ function dhtmlspecialchars ($string, $flags = null)
         }
     } else {
         if ($flags === null) {
-            $string = str_replace(
-                    array(
-                            '&',
-                            '"',
-                            '<',
-                            '>'
-                    ), 
-                    array(
-                            '&',
-                            '"',
-                            '<',
-                            '>'
-                    ), $string);
+            $string = str_replace(array(
+                '&',
+                '"',
+                '<',
+                '>'
+            ), array(
+                '&',
+                '"',
+                '<',
+                '>'
+            ), $string);
             if (strpos($string, '&#') !== false) {
-                $string = preg_replace('/&((#(\d{3,5}|x[a-fA-F0-9]{4}));)/', 
-                        '&\\1', $string);
+                $string = preg_replace('/&((#(\d{3,5}|x[a-fA-F0-9]{4}));)/', '&\\1', $string);
             }
         } else {
             if (PHP_VERSION < '5.4.0') {
@@ -214,7 +234,7 @@ function dhtmlspecialchars ($string, $flags = null)
  * @param string $str            
  * @return boolean
  */
-function format_verify ($str = '', $is_one = 0)
+function format_verify($str = '', $is_one = 0)
 {
     if (! is_phone($str, $is_one)) {
         return false;
@@ -234,15 +254,13 @@ function format_verify ($str = '', $is_one = 0)
  *            是否检测唯一 默认不检测
  * @return boolean
  */
-function is_mobile ($mobile, $is_one = 0)
+function is_mobile($mobile, $is_one = 0)
 {
-    if (strlen($mobile) != 11 ||
-             ! preg_match('/^1[3|4|5|7|8][0-9]\d{4,8}$/', $mobile)) {
+    if (strlen($mobile) != 11 || ! preg_match('/^1[3|4|5|7|8][0-9]\d{4,8}$/', $mobile)) {
         return false;
     } else {
         if ($is_one != 0) {
-            if (M('users')->where('mobile_phone=' . $mobile)->count('user_id') >
-                     0) {
+            if (M('users')->where('mobile_phone=' . $mobile)->count('user_id') > 0) {
                 // echo M('users')->getLastSql();
                 return false;
             }
@@ -250,7 +268,25 @@ function is_mobile ($mobile, $is_one = 0)
         return true;
     }
 }
+function check_mobile($mobile)
+{
+    if (strlen($mobile) != 11 || ! preg_match('/^1[3|4|5|7|8][0-9]\d{4,8}$/', $mobile)) {
+        return false;
+    } else {
+       
+        return true;
+    }
+}
 
+function check_email($mobile)
+{
+    if (strlen($mobile) != 11 || ! preg_match('/^1[3|4|5|7|8][0-9]\d{4,8}$/', $mobile)) {
+        return false;
+    } else {
+      
+        return true;
+    }
+}
 /**
  * 是否为一个合法的email
  *
@@ -259,7 +295,7 @@ function is_mobile ($mobile, $is_one = 0)
  *            是否检测唯一 默认不检测
  * @return boolean
  */
-function is_email ($email, $is_one = 0)
+function is_email($email, $is_one = 0)
 {
     if (filter_var($email, FILTER_VALIDATE_EMAIL) && $is_one == 0) {
         return true;
@@ -281,7 +317,7 @@ function is_email ($email, $is_one = 0)
  * @param string $path            
  * @return boolean|NULL|unknown|boolean|string
  */
-function get_inc ($name, $path)
+function get_inc($name, $path)
 {
     static $_inc_cache = array();
     // 获取缓存数据
@@ -310,7 +346,7 @@ function get_inc ($name, $path)
  *            邮件内容
  * @param number $is_html            
  */
-function send_email ($email, $title, $message, $is_html = 1)
+function send_email($email, $title, $message, $is_html = 1)
 {
     import('Lib.Email.PHPMailer');
     $mail = new PHPMailer();
@@ -359,46 +395,49 @@ function send_email ($email, $title, $message, $is_html = 1)
 
 /**
  * 发送短信验证码
- *
- * @param number $tel            
- * @param string $content            
+ * @param number $mobile
+ * @param string $content
  * @return number
  */
-function send_sms ($tel = 0, $content = '')
+function send_sms($mobile = 0, $content = '')
 {
-    $code = rand(100000, 999999);
+    $code = mt_rand(1000, 9999);
     $content = C('SMS_SIGN') . $content . $code;
-    if (! empty(session('smstime._send_sms_time'))) {
-        if (time() - session('smstime._send_sms_time') <= 60) { // 60s发送频率
-            $resCode = - 2;
-            return $resCode;
-            exit();
-        }
+    $model = M('verifycode');
+    $map = [
+        'client'=>$mobile,
+        'ip'=>get_client_ip(),
+        'expire_time'=>['gt',time()]
+    ];
+    if($model->where($map)->count()){
+        return '请隔两分钟后再试获取!';
     }
     $sms_api = C('SMS_ULR');
     $data = [
-            'appid' => C('SMS_APPID'),
-            'to' => $tel,
-            'content' => $content,
-            'timestamp' => time(),
-            'signature' => C('SMS_SIGNATURE')
+        'appid' => C('SMS_APPID'),
+        'to' => $mobile,
+        'content' => $content,
+        'timestamp' => time(),
+        'signature' => C('SMS_SIGNATURE')
     ];
     $rs = send_curl_request($sms_api, $data);
     $rs = json_decode($rs);
     if ($rs->status == 'success') {
-        session_start();
-        $lifeTime = 3 * 60;
-        setcookie(session_name(), session_id(), time() + $lifeTime, "/");
-        session('smstime', 
-                array(
-                        '_send_sms_time' => time(),
-                        '_code' => $code
-                ));
-        $resCode = 1;
-        return $resCode;
-    } else {
-        $resCode = - 1;
-        return $resCode;
+        $map = [
+            'client'=>$mobile,
+            'ip'=>get_client_ip()
+        ];
+        $model->where($map)->delete();
+        $data  = [
+            'client'=>$mobile,
+            'ip'=>get_client_ip(),
+            'expire_time'=>time()+120,
+            'verifycode'=>$code 
+        ];
+        $model->add($data);
+        return true;
+    } else { 
+        return '获取失败!';
     }
 }
 
@@ -408,7 +447,7 @@ function send_sms ($tel = 0, $content = '')
  * @param array $data            
  * @return string|mixed
  */
-function send_curl_request ($url, array $data = [])
+function send_curl_request($url, array $data = [])
 {
     if (empty($url)) {
         return '';
@@ -434,7 +473,7 @@ function send_curl_request ($url, array $data = [])
  * @param unknown $data            
  * @return mixed
  */
-function curl_post ($url, $data)
+function curl_post($url, $data)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -455,18 +494,18 @@ function curl_post ($url, $data)
 
 /**
  * 面包屑导航1/2
- * 
+ *
  * @param number $menu_id            
  * @return string
  */
-function crumbs_menu ($menu_id = 0, $module = 'admin_menu')
+function crumbs_menu($menu_id = 0, $module = 'admin_menu')
 {
     if (empty($menu_id))
         return false;
     $crumbs = '';
     $menu_info = M($module)->where([
-            'status' => 1,
-            'id' => $menu_id
+        'status' => 1,
+        'id' => $menu_id
     ])->find();
     
     if (! empty($menu_info['pid'])) {
@@ -479,46 +518,269 @@ function crumbs_menu ($menu_id = 0, $module = 'admin_menu')
 
 /**
  * 面包屑导航2/2
- * 
+ *
  * @param number $menu_id            
- * @param string $tag    当前操作的标识
+ * @param string $tag
+ *            当前操作的标识
  * @return string
  */
-function crumbs ($menu_id = 0, $tag = '内容', $module = 'admin_menu')
+function crumbs($menu_id = 0, $tag = '内容', $module = 'admin_menu')
 {
-    $crumbs = "<ul class='bread'><li><a href='#' class='icon-home'>首页</a> </li>" .
-             crumbs_menu($menu_id, $module) . "<li>{$tag}</li> </ul>";
+    $crumbs = "<ul class='bread'><li><a href='#' class='icon-home'>首页</a> </li>" . crumbs_menu($menu_id, $module) . "<li>{$tag}</li> </ul>";
     return $crumbs;
 }
 
 /**
  * level_name
- * 
+ *
  * @param number $level_id            
  */
-function get_Level_name ($level_id = 0)
+function get_Level_name($level_id = 0)
 {
     if (empty($level_id)) {
         return false;
     } else {
         return M('level')->where([
-                'level_id' => $level_id
+            'level_id' => $level_id
         ])->getField('level_name');
     }
 }
+
 /**
  * 获取道馆名称
- * @param number $store_id
+ * 
+ * @param number $store_id            
  */
 function get_store_name($store_id = 0)
 {
     if (empty($store_id)) {
         return '平台';
     } else {
-        $store_name = M('store')->where([ 'store_id' => $store_id])->getField('store_name'); 
-        if(empty($store_name)){
+        $store_name = M('store')->where([
+            'store_id' => $store_id
+        ])->getField('store_name');
+        if (empty($store_name)) {
             return '平台';
         }
         return $store_name;
     }
+}
+
+/**
+ * 获取地址
+ * 
+ * @param array $region_id_arr            
+ * @return string
+ */
+function get_region_info(array $region_id_arr = [])
+{
+    if (empty($region_id_arr)) {
+        return false;
+    }
+    $region_id = trim(join(',', $region_id_arr));
+    $map = [
+        'region_id' => [
+            'in',
+            $region_id
+        ]
+    ];
+    $data = M('region')->field('region_name')
+        ->where($map)
+        ->select();
+    $region = [];
+    foreach ($data as $v) {
+        $region[] = $v['region_name'];
+    }
+    
+    return join(',', $region);
+}
+/**
+ * 添加关注
+ * @param array $data
+ * @return boolean
+ */
+function add_follow(array $data = [])
+{
+    $data = [
+            'table_id'=>$data['table_id'],
+            'table'=>$data['table'],
+            'uid'=>$data['uid'],
+            'time'=>time()
+    ];
+    if(M('follow')->add($data)){
+        return true;
+    }else{
+        return false;
+    }
+}
+/**
+ * 移除关注
+ * @param array $map
+ * @return boolean
+ */
+function cancel_follow(array $map=[])
+{
+    $map = [
+            'table_id'=>$data['table_id'],
+            'table'=>$data['table'],
+            'uid'=>$data['uid']
+    ];
+    if(M('follow')->where($map)->count()){
+        return false;
+    }
+    if(M('follow')->where($map)->delete()){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+/**
+ * 获取指定月份额起始
+ * @param number $y
+ * @param number $m
+ * @return array
+ */
+function month_time($y=2016,$m=8)
+{
+    
+    $month = $y."-".$m;//当前年月
+    $month_start = strtotime($month);//指定月份月初时间戳
+    $month_end = mktime(23, 59, 59, date('m', strtotime($month))+1, 00,$y);//指定月份月末时间戳
+    return [$month_start,$month_end];
+}
+/**
+ * 对查询结果集进行排序
+ * @access public
+ * @param array $list 查询结果
+ * @param string $field 排序的字段名
+ * @param array $sortby 排序类型
+ * asc正向排序 desc逆向排序 nat自然排序
+ * @return array
+ */
+function list_sort_by($list,$field, $sortby='asc') {
+    if(is_array($list)){
+        $refer = $resultSet = [];
+        foreach ($list as $i => $data)
+            $refer[$i] = &$data[$field];
+            switch ($sortby) {
+                case 'asc': // 正向排序
+                    asort($refer);
+                    break;
+                case 'desc':// 逆向排序
+                    arsort($refer);
+                    break;
+                case 'nat': // 自然排序
+                    natcasesort($refer);
+                    break;
+            }
+            foreach ( $refer as $key=> $val)
+                $resultSet[] = &$list[$key];
+                return $resultSet;
+    }
+    return false;
+}
+/**
+ * 点亮学员微章
+ * @param number $students_id
+ * @param number $type
+ * @param number $store_id
+ * @param array $data //附带数据
+ * @return boolean
+ */
+function light_badge($students_id=0,$type=0,$store_id=0,$data=[])
+{
+    if(empty($students_id) || empty($type) || empty($store_id)){
+        return  false;
+    }
+    //训练微章
+    if($type==1){
+        if(!empty($data['train_nums'])){
+
+            $bedge=M('badge')->where(['type'=>1])->select();
+             
+            foreach ($bedge as $k=>$v){
+                if($v['train_nums']==$data['train_nums']){
+                    $data = [
+                        'store_id'=>$store_id,
+                        'student_id'=>$students_id,
+                        'badge_id'=>$v['badge_id'],
+                        'time'=>time()
+                    ];
+                    M('students_badge')->add($data);
+                }
+                if(isset($data['assess_nums'])){
+                    if($v['assess_nums']==$data['assess_nums']){
+                        $data = [
+                            'store_id'=>$store_id,
+                            'student_id'=>$students_id,
+                            'badge_id'=>$v['badge_id'],
+                            'time'=>time()
+                        ];
+                        M('students_badge')->add($data);
+                    }
+                }
+            }
+
+        }else{
+            return  false;
+        }
+    }
+    //赛事微章
+    if($type==3){
+         
+    }
+    //活动微章
+    if($type==3){
+         
+    }
+
+
+    return true;
+}
+/**
+ * 推送
+ * @param unknown $list
+ * @param unknown $content
+ * @return boolean
+ */
+function message_push($list,$content)
+{
+    $push = new \Lib\JSpush();
+    $receive = ['alias' => $list];    //别名
+    $m_type = 'tips';
+    $m_txt = 'http://www.letsfighting.com/';
+    $m_time = '600';        //离线保留时间
+    $result = $push->push($receive, $content, $m_type, $m_txt, $m_time);
+    if ($result) {
+        $res_arr = json_decode($result, TRUE);
+        if (isset($res_arr['error'])) {                       //如果返回了error则证明失败
+            // echo $res_arr['error']['message'];          //错误信息
+            //echo $res_arr['error']['code'];             //错误码
+            return false;
+        }else {
+            // echo '推送成功.....' . $content;
+            return true;
+        }
+        //接口调用失败或无响应
+    }else {     
+        //echo '接口调用失败或无响应';
+        return FALSE;
+    }
+}
+/**
+ * 是否被收藏
+ * @param number $table_id
+ * @param string $table_name
+ * @param number $member_id
+ * @return unknown
+ */
+function whether_follow($table_id = 0,$table_name ='',$member_id=0){
+    $map = [
+            'uid'=>$member_id,
+            'table'=>$table_name,
+            'table_id'=>$table_id
+            
+    ];
+    return M('follow')->where($map)->count();
 }

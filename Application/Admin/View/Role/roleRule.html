@@ -21,7 +21,8 @@
 					<li> 
 						<ul class="list-group padding-big-left">
 						<volist name="aln.node" id="alnn"> 
-							<li class="float-left"><input type="checkbox" name='auth[]' value='{$alnn.id}' class="" />&nbsp;{$alnn.title}</li>
+							<li class="float-left">
+							<input type="checkbox" name='auth[]' value='{$alnn.id}' <if condition="$alnn.check eq 1 "> checked="checked" </if> class="" />&nbsp;{$alnn.title}</li>
 						</volist>
 							<li class="clearfix"></li>
 						</ul>

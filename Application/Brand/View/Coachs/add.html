@@ -10,7 +10,7 @@
 		
 			<tr>
 				<td style="width:160px;">教练姓名:</td>
-				<td class="text-left"><html:input name='coach_name' class='input  display-inline-block' style="width:20%"  value="{$coach_info['coach_name']}"  datatype='*2-8'/></td>
+				<td class="text-left"><html:input name='coach_name' class='input  display-inline-block' style="width:20%"  value="{$coach_info['nick_name']}"  datatype='*2-8'/></td>
 			</tr>
 			
 			<tr>
@@ -34,8 +34,8 @@
 			<tr>
 				<td>性别:</td>
 				<td style='text-align:left'>
-					<input name="coach_sex" type="radio" value=1 <if condition="$coach_info.coach_sex eq 1 "> checked="checked" </if> />男
-					<input name="coach_sex" type="radio" value=0 <if condition="$coach_info.coach_sex eq 0 "> checked="checked" </if> />女	
+					<input name="coach_sex" type="radio" value=1 <if condition="$coach_info.sex eq 1 "> checked="checked" </if> />男
+					<input name="coach_sex" type="radio" value=0 <if condition="$coach_info.sex eq 0 "> checked="checked" </if> />女	
 				</td>
 			</tr>
 			
@@ -43,7 +43,7 @@
 			<tr>
 				<td>教练年龄:</td>
 				<td class="text-left">
-					<html:input name='coach_age'  class='input display-inline-block' style='width:10%' value="{$coach_info['coach_age']}" datatype='n1-2' />
+					<html:input name='coach_age'  class='input display-inline-block' style='width:10%' value="{$coach_info['age']}" datatype='n1-2' />
 				</td>
 				
 			</tr>

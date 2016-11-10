@@ -58,7 +58,7 @@ class MembersController extends CommonController
         
         $this->assign('map',array_merge($_REQUEST,$search));
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
-        $field = 'm.id,m.mobile,m.sex,m.age,m.nick_name,
+        $field = 'm.id,m.mobile,m.sex,m.age,m.nick_name,m.avatar,
                 m.last_login_time, m.reg_time,
             su.student_name,su.student_sex,su.student_age,s.store_name,su.student_name';
         $row = $model->getMembersList($map, $field,$search,$page_now);

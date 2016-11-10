@@ -36,7 +36,7 @@ return [
     'SHOW_PAGE_TRACE'=>'true',
     
     //分页
-    'PAGE_SIZE' => 2
+    'PAGE_SIZE' => 8
     
     
 ];

@@ -91,7 +91,7 @@ class RoleController extends CommonController
         $model=D('Admin');
         if(IS_POST){
             if($model->create()){
-                if(!empty($this->password)){
+                if(!empty($model->password)){
                     $model->password = md5($model->password);
                 }else{
                     $this->error('密码不能为空!');
@@ -191,7 +191,7 @@ class RoleController extends CommonController
            
            
            $model=D('Admin');
-           $auth = $model->getAuthList($role_id); 
+           $auth = $model->getAuthList($role_id);
            $this->assign('role_id',$role_id);
            $this->assign('auth_list',$auth);
            $this->display();

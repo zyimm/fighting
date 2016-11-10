@@ -68,7 +68,7 @@
 			<tr>
 			
 				<td rowspan="1">{++$key}</td>
-				<td rowspan="1">{$ml.nick_name}</td>
+				<td rowspan="1" class="cursor"  onclick="showImageFrame('{$ml.avatar|default='no_url'}',this)">{$ml.nick_name}</td>
 				<td rowspan="1">性别:
 				<if condition="$ml.sex eq 1 ">
 				 <i class="icon-male text-blue"></i>(男)

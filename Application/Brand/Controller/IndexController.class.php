@@ -38,6 +38,7 @@ class IndexController extends CommonController
         $this->assign('category_level_second',$category_level);
         $this->assign('category_level_first',$category_level_first);
         $this->assign('admin_info',$this->admin_info);
+        $this->assign('brand_info',$this->brand_info);
         $this->display();
     }
     
@@ -47,8 +48,7 @@ class IndexController extends CommonController
      */
     public function welcome()
     {
-        $this->assign('admin_info',$this->admin_info);
-        $this->assign('store_admin_info',$this->store_admin_info);
+        $this->assign('admin_info',$this->admin_info);  
         $this->display();
     }
 }

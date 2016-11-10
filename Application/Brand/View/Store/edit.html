@@ -20,13 +20,16 @@
 							
 						</td>
 					</tr>
+				
 					<tr> 
-						<td>道馆类别:</td>
-						<td style="text-align:left">
-							<input name="store_type" type="radio" value=1 <if condition="$store_info.store_type eq 1 ">  checked="checked" </if> />总部
-							<input name="store_type" type="radio" value=0 <if condition="$store_info.store_type eq 0 "> checked="checked" </if> />无
-						</td>
 						
+						<td>所在地区:</td>
+						<td> 
+							<select id="country" name="country" class="input float-left margin-right" style="width:100px;"></select>
+							<select id="province" name="province" class="input width-250 float-left margin-right" style="width:100px;"></select>
+							<select id="city" name="city" class="input width-250 float-left margin-right" style="width:100px;"></select>
+							<select id="district" name="district" class="input  width-250 float-left margin-right" style="width:100px;"></select>
+						</td>
 					</tr>
 					<tr> 
 						
@@ -48,4 +51,23 @@
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript" src="/assets/Common/Js/area.js"></script>
+<script type="text/javascript"> 
+	//省级联动
+	var opt={
+		'name':['country',"province","city","district"],
+		'value':["国家","省份","地级市","市、县级市"],	
+		'has':[{$store_info.country},{$store_info.province},{$store_info.city},{$store_info.district}]
+	};
+	var areaData;
+	var areas;
+	$.post('__CONTROLLER__/getArea','',function(d){
+		areaData=d;
+		areas=new Areas(areaData,opt);
+		try{
+			areas.init();
+		}catch(e){
+		
+		}
+	},'json');
+</script>

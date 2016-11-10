@@ -33,8 +33,6 @@
 						<html:date  class='input' value='{$map.end_time}' required='no' name='end_time' style='height: 34px;line-height: 20px; ' />
 					</div> 
 				</div> 
-				
-			
 				<div class="form-button">
 					<button class="button border-main  icon-search" type="submit"> 搜索</button> 
 			
@@ -46,22 +44,22 @@
 		<tbody>
 			<tr>
 				<th colspan="5" rowspan="2">基础信息</th>
-				<th colspan="4">所教班级</th>
+				<th colspan="4">所教班级(<b class="text-dot">统计</b>)</th>
 				<th colspan="2">相关信息</th>
 				<th rowspan="2">操作</th>
 			</tr>
 			<tr>
 			  <th>所教班级</th>
 			  <th>上课时间</th>
-			  <th>班级人数</th>
-			  <th>已报名人数</th>
+			  <th>累计人数</th>
+			  <th>累计人数(在读)</th>
 			  <th>是否绑定道馆</th>
 			  <th>注册时间</th>
 			</tr>
 			<volist name="coachs_list" id="sl"> 
 			<tr>
 				<td rowspan="1">{++$key}</td>
-				<td rowspan="1">{$sl.nick_name}</td>
+				<td rowspan="1" class="cursor"  onclick="showImageFrame('{$sl.avatar|default='no_url'}',this)">{$sl.nick_name}</td>
 				<td rowspan="1">性别:
 				<if condition="$sl.sex eq 1 ">
 				 <i class="icon-male text-blue"></i>(男)
@@ -71,20 +69,13 @@
 				</td>
 				<td rowspan="1">年龄:{$sl.age}</td>
 				<td rowspan="1">联系手机:{$sl.mobile|default='暂无!'}</td>
-				
-				 
-				<td>暂无课程!</td>
-				<td>周一到周五 下午三点</td>
-				<td>30/人</td>
-				<td>15/人</td>
-				
-				
-				
-				
-	
+				<td>目前任教【<b class="text-dot">{$sl.courses_num}</b>】课程!</td>
+				<td>共有【<b class="text-dot">{$sl.courses_time_count}</b>】时间段</td>
+				<td>{$sl.student_count}/人</td>
+				<td>{$sl.student_apply_count}/人</td>
 				<td rowspan="1">
 					<if condition="$sl.relation_status eq 1 ">
-					<span class="text-green">已绑定道馆</span>
+					<span class="text-green">已绑定道馆</span>【{:get_store_name($sl['store_id'])}】
 					<else />
 					<span class="text-dot">未绑定当前道馆</span>
 					</if>

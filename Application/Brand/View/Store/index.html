@@ -6,20 +6,22 @@
 	<div> 
 		<table class="table table-hover table-striped"> 
 			<tr>
-				<th>道馆序列</th>
+				<th>序号</th>
 				<th>道馆名称</th>
-				<th>道馆品牌</th>
+				<th>品牌</th>
 				<th>道馆扫描二维码</th>
+				<th>区域</th>
 				<th>状态</th>
 				<th>注册时间</th>
 				<th>操作</th>
 			</tr>
 			<volist name="store_list" id="sl"> 
 			<tr> 
-				<td>{++$key}</td>
+				<td>{$sl.store_id}</td>
 				<td>{$sl.store_name}</td>
 				<td>{$sl.brand_name}</td>
 				<td><img src="__CONTROLLER__/getStoreCode?store_id={$sl.store_id}" alt="" width=60 height=60  onclick="showImage('__CONTROLLER__/getStoreCode?store_id={$sl.store_id}')" style='cursor:pointer' /></td>
+				<td>{$sl.area|default='暂无!'}</td>
 				<td> 
 					<if condition="$sl.store_status eq 1 ">
 						<b class="text-main">正常</b>
@@ -36,6 +38,9 @@
 			</volist>
 			
 		</table>
+		<div class="admin-page">  
+		{$page_show}
+	</div>
 	</div>
 </div>
 <script type="text/javascript">

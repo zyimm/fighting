@@ -48,14 +48,19 @@ class AdModel extends Model
     */
     public function getAdInfo($ad_id=0,$store_id=0)
     {
-        if(empty($ad_id) || empty($store_id)){
+        if(empty($ad_id)){
             return false;
         }else{
             $map = [
-                'store_id' =>$store_id,
+               
                 'is_del' =>0,
                 'ad_id' =>$ad_id  
             ];
+            
+            if(!empty($store_id)){
+                 $map ['store_id']= $store_id;
+            }
+   
             $data = $this->where($map)->find();
             if(empty($data)){
                 return  false;

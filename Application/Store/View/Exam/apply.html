@@ -3,7 +3,7 @@
 <div class="padding table-responsive">
 	{:crumbs(44,'列表详细','store_menu')}
 	<hr />
-	<div class="alert margin-bottom"><a href="/uploads/excel/demo.xls" class="button border-blue"><i class="icon-cloud-download"></i>&nbsp;导出(仅导出已审核学生)</a></div>
+	<div class="alert margin-bottom"><a href="javascript:alert('后期开发中')" class="button border-blue"><i class="icon-cloud-download"></i>&nbsp;导出(仅导出已审核学生)</a></div>
 	<table class="table table-bordered table-hover table-striped">
 		<tbody> 
 			<tr>
@@ -14,7 +14,10 @@
 				<th>当前等级->报考等级</th>
 				<th>家长姓名</th>
 				<th>联系方式</th>
+				<th>收费</th>
 				<th>审核状态</th>
+				<th>审核人</th>
+				<th>审核时间</th>
 				<th>相关操作</th>
 			</tr>
 			<volist name="apply_list" id="apply">
@@ -33,18 +36,32 @@
 				<td>{$apply.nick_name}</td>
 				<td>{$apply.mobile}</td>
 				<td>
+					<if condition="$apply.is_charge eq 1 ">
+						<tag class="badge bg-main">已收费</tag>
+					<else />
+						<tag class="badge bg-dot">未收费</tag>
+					</if>
+				</td>
+				<td>
 				<if condition="$apply.status eq 1 ">
 					<tag class="badge bg-main">已审核</tag>
 				<else />
 					<tag class="badge bg-dot">未审核</tag>
 				</if>
 				</td>
+				<td>{$apply.operator_name|default='暂无!'}</td>
+				<td>{$apply.operator_time|date='Y-m-d H:i:s',###}</td>
 				<td>
 				<if condition="$apply.status eq 1 ">
-					-x-x-x
+					<a href="__CONTROLLER__/doApply?apply_id={$apply.apply_id}" class="button bg-dot button-little">未审核</a>
 				<else />
 					<a href="__CONTROLLER__/doApply?apply_id={$apply.apply_id}" class="button bg-blue button-little">审核</a>
 					<a href="javascript:void(0)" onclick="itemDel({$apply.apply_id},'__CONTROLLER__/delApply');" class="button bg-dot button-little">删除</a>
+				</if>
+				<if condition="$apply.is_charge eq 0 ">
+					<a href="__CONTROLLER__/charge?apply_id={$apply.apply_id}&status=0" class="button bg-blue button-little">已收费</a>
+				<else />
+					<a href="__CONTROLLER__/charge?apply_id={$apply.apply_id}&status=1" class="button bg-dot button-little">未收费</a>
 				</if>
 				</td>
 			</tr>

@@ -26,10 +26,10 @@ class ActivityController extends CommonController
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
         $row = $model->getActivityList($map,$field,[],$page_now);
         foreach ($row['list'] as $k=>$v){
-            $temp_activity_time = explode(',',$v['activity_time']); 
+            $temp_activity_time = explode(',',$v['activity_time']);
             $temp_activity_apply_time = explode(',',$v['activity_apply_time']);
-            $row['list'][$k]['activity_time'] = date('Y年/m月/d日 H:i:s',$temp_activity_time[0]).'~'.date('Y年/m月/d日 H:i:s',$temp_activity_time[1]);
-            $row['list'][$k]['activity_apply_time'] = date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[0]).'~'.date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[1]);
+            $row['list'][$k]['activity_time'] = '起:'.date('Y年/m月/d日 H:i:s',$temp_activity_time[0]).'<br />'.'止:'.date('Y年/m月/d日 H:i:s',$temp_activity_time[1]);
+            $row['list'][$k]['activity_apply_time'] = '起:'.date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[0]).'<br />'.'止:'.date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[1]);
         }
         $this->assign('activity_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
@@ -241,22 +241,28 @@ class ActivityController extends CommonController
         if(empty($activity_id)){
             $this->error('activity_id 不存在!');
         }
-        $model = D('Activity');
-        //检测Activity 是否正常
-        if(!$model->checkActivity($activity_id,$this->store_id)){
-            $this->error('该活动处于非正常状态!');
-        }
+        $model = D('Store/Activity');
+     
         $map =[
             's.is_del' =>0,
             's.student_status' =>1,
             'activity_id'=>$activity_id
         ];
-        $field = 'a.apply_id,a.apply_time,a.status,
+        $field = 'a.apply_id,a.apply_time,a.status,a.operator_id,a.operator_time,
             s.student_name,s.student_age,s.student_sex,
             m.nick_name, m.mobile';
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
         $row = $model->getApplyList($map,$field,[],$page_now);
        //dump($row['list']);
+        $store_model  = D('Store/Store');
+        foreach ($row['list'] as $k=>$v){
+            if(!empty($v['operator_id'])){
+                $temp = $store_model->getStoreAdminInfo($v['operator_id']);
+                $row['list'][$k]['operator_name']=$temp['user_name'];
+            }else{
+                continue;
+            }
+        }
         $this->assign('apply_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
         $this->display();

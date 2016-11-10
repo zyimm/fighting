@@ -31,13 +31,10 @@
 				</div> 
 				<div class="form-group"> 
 					<div class="label"> 
-						<label for="password">是否绑定学生:</label>
+						<label for="password">所属道馆:</label>
 					</div>
 					<div class="field">
-						<select name="is_bing"  class="input">
-							<option value="0">未绑定</option>
-							<option value="1">已绑定</option>
-						</select>
+						<html:select id='store_id' name='store'  selected="map['store_id']"  options='store'/>	
 					</div>
 				</div>	
 			
@@ -54,7 +51,7 @@
 				<th colspan="5" rowspan="2">基础信息</th>
 				<th colspan="4">绑定学生信息</th>
 				<th colspan="2">注册信息</th>
-				<th rowspan="2">操作</th>
+				<!-- <th rowspan="2">操作</th> -->
 			</tr>
 			<tr>
 			  <th>学生姓名</th>
@@ -68,7 +65,7 @@
 			<tr>
 			
 				<td rowspan="1">{++$key}</td>
-				<td rowspan="1">{$ml.nick_name}</td>
+				<td rowspan="1" class="cursor"  onclick="showImageFrame('{$ml.avatar|default='no_url'}',this)">{$ml.nick_name}</td>
 				<td rowspan="1">性别:
 				<if condition="$ml.sex eq 1 ">
 				 <i class="icon-male text-blue"></i>(男)
@@ -95,10 +92,10 @@
 	
 				<td rowspan="1">{$ml.reg_time|date='Y-m-d H:i:s',###}</td>
 				<td rowspan="1">登录时间：{$ml.last_login_time|date='Y-m-d H:i:s',###}</td>
-				<td rowspan="1">
+				<!-- <td rowspan="1">
 					<a class="button border-blue button-little" href="__CONTROLLER__/edit?id={$ml.id}">编辑</a> 
 					<a class="button border-red button-little " href="javascript:;" onclick="itemDel({$ml.id},'__CONTROLLER__/del')">删除</a>
-				</td>
+				</td> -->
 			 
 			</tr>
 			</volist>

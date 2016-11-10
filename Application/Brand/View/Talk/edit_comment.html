@@ -1,0 +1,77 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(38,'编辑/添加','store_menu')}
+	<hr />
+	<form method="post"  action='__ACTION__' class="form-x"  enctype="multipart/form-data">
+	
+		<input type="hidden"  name='id'  value="{$talk_info['id']}" />
+		<table class="table table-hover" style=''>
+		
+			
+			<tr>
+				<td style="width:160px;">话题标题:</td>
+				<td class="text-left">
+					{$talk_info.talk_title}
+				</td>
+			</tr>
+			
+			<tr>
+				<td>评论图:</td>
+				<td style='text-align:left'>
+					<span class="button bg-yellow hidden" id='img_upload'>评论图</span>
+					<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+					<div id="img_preview">
+						{$album}
+					</div>
+				</td>
+			</tr>
+			
+			
+			<tr> 
+				<td>评论内容</td>
+				<td style="text-align:left">
+					<textarea name="comment" class='input'  rows="4" cols="50">{$talk_info.comment}</textarea>
+				</td>
+			</tr>
+			
+			<tr class="hidden">
+				
+				<td>
+					<html:editor id="editor" name="talk_content"  width='80%' content="{$talk_info['talk_content']}"  ></html:editor>
+				</td>
+			</tr>
+			<tr> 	
+				<td>是否显示:</td>
+				<td style="text-align:left">
+					<input name="status" type="radio" value=1 <if condition="$talk_info.status eq 1 "> checked="checked" </if> />显示
+					<input name="status" type="radio" value=0 <if condition="$talk_info.status eq 0 "> checked="checked" </if> />隐藏	
+				</td>
+			</tr>
+			
+		</table>
+		<div style='text-align:center' class="padding">
+			<button class="button button-big" type="submit"><span class="icon-edit text-blue"></span>提交修改</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info,{icon:2});
+				}
+			}
+		});
+	});
+</script>

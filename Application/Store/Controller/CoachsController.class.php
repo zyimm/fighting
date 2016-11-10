@@ -56,10 +56,20 @@ class CoachsController extends CommonController
        
         
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
-        $field = 'm.id as coach_id,cs.relation_status,m.mobile,m.sex,m.age,m.nick_name,m.address_desc,m.reg_time';
+        $field = 'm.id as coach_id,m.avatar,cs.store_id,cs.relation_status
+            ,m.mobile,m.sex,m.age,m.nick_name,m.address,m.reg_time,cs.coach_id as id';
         $row = $model->getCoachsList($map, $field, $search,$page_now);
-        
-       // dump($row);exit;
+        foreach ($row['list'] as $k=>$v){
+            $courses = $model->getCourses($v['id'],$this->store_id,'cc.course_id');
+            $row['list'][$k]['courses_num'] = count($courses);
+            $courses_id = array_column($courses, 'course_id');
+            $course_time_data = $model->getCourseTimeByCoach($courses_id,$this->store_id);
+            $row['list'][$k]['courses_time_count'] = $course_time_data['count'];
+            $student_count_data = $model->getStudentsByCourse($courses_id,$this->store_id);
+            $row['list'][$k]['student_count'] = $student_count_data['count'];
+            $row['list'][$k]['student_apply_count'] = $student_count_data['count_apply'];
+        }
+       
         $this->assign('coachs_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
   
@@ -104,8 +114,9 @@ class CoachsController extends CommonController
              ];
              $member_id = M('members')->add($member_data);
              if(empty($member_id)){
-                 //$this->error('教练基础信息插入失败!');
-                 $this->error(M('members')->getLastSql());
+                 $model->rollback();
+                 $this->error('教练基础信息插入失败!');
+                 //$this->error(M('members')->getLastSql());
                  
              }
              $coachs_data = [
@@ -117,7 +128,8 @@ class CoachsController extends CommonController
              ];
              
              $coach_id =$model->add($coachs_data);
-             if(empty($coachs_id)){
+             if(empty($coach_id)){
+                 $model->rollback();
                  $this->error('教练其他信息插入失败!');   
              }
              $relation_data = [
@@ -130,7 +142,7 @@ class CoachsController extends CommonController
              if(empty($relation_id)){
                  $this->error('教练与道馆绑定信息插入失败!');
              } 
-             if($relation_id && $member_id && $coachs_id){
+             if($relation_id && $member_id && $coach_id){
  
                  $model->commit();
                  $this->success('添加教练数据成功!');

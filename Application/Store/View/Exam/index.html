@@ -7,6 +7,7 @@
 	<table class="table table-bordered table-hover table-striped">
 		<tbody> 
 			<tr>
+				<th>序号</th>
 				<th>考试标题</th>
 				<th>缩略图</th>
 				<th>考试时间</th>
@@ -17,6 +18,7 @@
 			</tr>
 			<volist name="exam_list" id="exam">
 			<tr>
+				<td>{++$key}</td>
 				<td>{$exam.exam_title}</td>
 				<td><img src="{$exam.exam_image}" alt="" width=40 height=40 onclick="showImage('{$exam.exam_image}')" /></td>
 				<td>{$exam.exam_time}</td>

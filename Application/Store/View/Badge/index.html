@@ -3,7 +3,7 @@
 <div class="pbadgeding table-responsive">
 	{:crumbs(31,'列表详细','store_menu')}
 	<hr />
-	<div class="alert margin-bottom"><a href="__CONTROLLER__/add" class="button border-main icon-plus-square">&nbsp;新增</a></div>
+
 	<table class="table table-bordered table-hover table-striped">
 		<tbody> 
 			<tr>
@@ -12,7 +12,6 @@
 				<th>徽章图标</th>
 				<th>徽章图标(未点亮)</th>
 				<th>徽章类型</th>
-				<th>是否平台默认</th>
 				<th>是否显示</th>
 				<th>相关操作</th>
 			</tr>
@@ -27,14 +26,7 @@
 				<if condition="$badge.badge_type eq 2">	赛事徽章</if>	
 				<if condition="$badge.badge_type eq 3">活动徽章</if>
 				</td>
-				
-				<td>
-					<if condition="$badge.is_sys eq 1">
-						是
-					<else />
-						否
-					</if>
-				</td>
+			
 				<td>
 				<if condition="$badge.status eq 1 ">
 					<tag class="badge bg-main">显示</tag>
@@ -47,7 +39,7 @@
 					-x-x-x-
 				<else />
 					<a href="__CONTROLLER__/edit?badge_id={$badge.badge_id}" class="button bg-blue button-little">编辑</a>
-					<a href="javascript:void(0)" onclick="itemDel({$badge.badge_id});" class="button bg-dot button-little">删除</a>
+					<a href="javascript:void(0)" onclick="itemDel({$badge.badge_id},__CONTROLLER__/del);" class="button bg-dot button-little">删除</a>
 				</if>
 				</td>
 			</tr>

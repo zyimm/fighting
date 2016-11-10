@@ -6,7 +6,7 @@
  * Copyright (c) 2016 http://www.zyimm.com All rights reserved.
  * 2016年10月18日 上午9:25:59
  */
-namespace Store\Controller;
+namespace Brand\Controller;
 
 class StudentsController extends CommonController
 {
@@ -16,10 +16,10 @@ class StudentsController extends CommonController
      */
     public function index()
     {
-        $model = D('students');
+        $model = D('Store/students');
         $map = [
             's.is_del' => 0,
-            's.store_id' => $this->store_id
+            's.store_id' => ['in',$this->store_id_gather],
         ];
         //搜索
         if (!empty($_REQUEST['student_name'])) {
@@ -34,9 +34,12 @@ class StudentsController extends CommonController
             $search['level_id'] = $map['level_id'];
         }
         
+        if(!empty($_REQUEST['store'])){
+            $map['s.store_id'] = (int)$_REQUEST['store'];
+            $search['store_id'] = $map['s.store_id'];
+        }
         
-        
-        $_REQUEST['star_time'] = empty($_REQUEST['star_time'])?'1970-12-01':$_REQUEST['star_time'];
+        $_REQUEST['star_time'] = empty($_REQUEST['star_time'])?'2015-12-01':$_REQUEST['star_time'];
         $search['star_time'] = $_REQUEST['star_time'];
         $_REQUEST['end_time'] = empty($_REQUEST['end_time'])?date('Y-m-d',time()):$_REQUEST['end_time'];
         $search['end_time'] = $_REQUEST['end_time'];
@@ -70,6 +73,7 @@ class StudentsController extends CommonController
         $this->assign('students_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
         $this->assign('level', $level);
+        $this->assign('store', $this->getStoreArray());
         $this->display();
     }
 
@@ -78,7 +82,7 @@ class StudentsController extends CommonController
      */
     public function add()
     {
-        $model = D('students');
+        $model = D('Store/students');
         if (IS_POST) {
           //  print_r($_POST);
           
@@ -186,7 +190,7 @@ class StudentsController extends CommonController
       if(empty($id)){
           $this->error('id不存在!');
       }
-      $model = D('students');
+      $model = D('Store/students');
       if (IS_POST) {
             $student_data = [
                 'student_name' =>dhtmlspecialchars($_POST['student_name']),
@@ -200,7 +204,8 @@ class StudentsController extends CommonController
                 'level_id' => $_POST['level_id'],
                 'address' => dhtmlspecialchars($_POST['address']),
                 'student_no_alias' => dhtmlspecialchars($_POST['student_no_alias']),
-                'operator_id' => $this->store_admin_id
+                'operator_id' => $this->store_admin_id,
+                'student_status'=>I('student_status')
              
             ];
             // 检查唯一性
@@ -242,7 +247,6 @@ class StudentsController extends CommonController
                 // 检查唯一性
                 $map = [
                     'student_no_alias' => $student_data['student_no_alias'],
-                    'store_id' => $this->store_id,
                     'student_id'=>['neq',$id],
                     'is_del' =>0
                 ];
@@ -253,7 +257,7 @@ class StudentsController extends CommonController
             $model->startTrans(); // 事务
             $map = [
                 'student_id'=>$id,
-                'store_id'=>$this->store_id,
+                's.store_id' => ['in',$this->store_id_gather],
                 'is_del' =>0
             ];
             $student_id = $model->where($map)->save($student_data);
@@ -286,7 +290,8 @@ class StudentsController extends CommonController
             $field = 's.*,st.store_name,su.user_name';
             $map = [
                 's.is_del' => 0,
-                's.store_id' => $this->store_id
+                's.store_id' => ['in',$this->store_id_gather],
+                's.student_id'=>$id
             ];
             $row = $model->getStudentsList($map,$field);
             if(empty($row['list'][0])){
@@ -495,4 +500,56 @@ class StudentsController extends CommonController
             }
         }
     }
+    /**
+     * 
+     */
+    public function courses()
+    {
+        $student_id = I('student_id');
+        $model = D('Store/courses');
+        $map =[
+                'is_del' =>0,
+        ];
+        $field = 'course_id,course_title,course_image
+            ,course_time,course_home,course_students,status';
+        $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
+        $row = $model->getCoursesList($map,$field,[],$page_now);
+    
+        $week_array=["日","一","二","三","四","五","六"];
+        foreach ($row['list'] as $k=>$v){
+            $temp_course_time = explode('#',$v['course_time']);
+            foreach ($temp_course_time as $val){
+                $_t = explode(',',$val);
+                $row['list'][$k]['course_time_formation'].= '每周'.$week_array[$_t[0]]."的{$_t[1]}:{$_t[2]}-{$_t[3]}:{$_t[4]} <br />";
+                 
+            }
+        }
+    
+        foreach ($row['list'] as $k=>$v){
+            $map_students = [
+                    'c.course_id'=>$v['course_id'],
+                    's.is_del'=>0,
+                    's.student_status'=>1,
+            ];
+            $temp = $model->getCourseStudents($map_students,'s.student_id');
+            $student_id_arr = array_column($temp['list'],'student_id');
+            if(empty($student_id_arr) || !in_array($student_id,$student_id_arr)){
+                unset($row['list'][$k]);
+                continue;
+            }
+            $row['list'][$k]['apply_num'] =$temp['count'];
+            $temp_coachs  = $model->getCourseCoachs($v['course_id'],'cc.coach_id,m.nick_name');
+            $coachs = [];
+            foreach ($temp_coachs['list'] as $key=>$val){
+                $coachs[$val['coach_id']] = $val['nick_name'];
+            }
+            $row['list'][$k]['coachs'] =join(',',$coachs);
+        }
+        if(empty($row['list'])){
+            $this->error('该学生暂无课程!');
+        }
+        $this->assign('course_list', $row['list']);
+        $this->assign('page_show', $row['page_show']);
+        $this->display();
+    }   
 }

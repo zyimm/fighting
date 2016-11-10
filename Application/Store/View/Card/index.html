@@ -1,0 +1,53 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(56,'列表详细','store_menu')}
+	<hr />
+	
+	<table class="table table-bordered table-hover table-striped">
+		<tbody> 
+			<tr>
+				<th>序列</th>
+				<th>卡种</th>
+				
+				<th>起始时间</th>
+				<th>结束时间</th>
+				<th>次数</th>
+				<th>所绑学生</th>
+				<th>是否禁用</th>
+				<th>相关操作</th>
+			</tr>
+			<volist name="card_list" id="card">
+			<tr>
+				<td>{++$key}</td>
+				<td>
+					<if condition="$card.status eq 0 ">次卡</if>
+					<if condition="$card.status eq 1 ">期卡</if>
+					<if condition="$card.status eq 2 ">全通卡</if>
+				</td>
+				
+				<td>{$card.card_start_time|date='Y-m-d ',###}</td>
+				<td>{$card.card_end_time|date='Y-m-d',###}</td>
+				<td>{$card.card_nums}</td>
+				<td>{$card.student_name|default='未绑定学生!'}</td>
+				<td>
+					<if condition="$card.card_status eq 1 ">
+						<tag class="badge bg-main">正常</tag>
+					<else />
+						<tag class="badge bg-dot">禁止</tag>
+					</if>
+				</td>
+				<td>
+					<a href="__CONTROLLER__/edit?card_id={$card.card_id}" class="button bg-blue button-little">编辑</a>		
+					<a href="javascript:void(0)" onclick="itemDel({$card.card_id},'__CONTROLLER__/del');" class="button bg-dot button-little">删除</a>
+				</td>
+			</tr>
+			</volist>
+			
+		</tbody>
+           
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

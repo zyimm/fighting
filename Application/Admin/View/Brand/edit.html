@@ -2,33 +2,67 @@
 <div class="padding table-responsive">
 	{:crumbs(25,'详细')}
 	<hr />
-	<div class="panel">
-		<div class="panel-head bg-main"><h4 class='icon-edit '>编辑/添加品牌</h4></div>
-		<div class="panel-body">
-			<form method="post" action='' />
-				<input type="hidden" name='brand_id' value='{$brand_info.brand_id}' />
-				<table class="table"> 
-					<tr>
-						<td>品牌名称:</td>
-						<td><html:input name='brand_name' required='no' class='input width-250'  placeholder="品牌名称"  value='{$brand_info.brand_name}'  /></td>
-					</tr>
-					<tr>
-						<td>品牌状态:</td>
-						<td style="text-align:left">
-							
-							<input name="brand_status" type="radio" value=1 <if condition="$brand_info.brand_status eq 1 ">  checked="checked" </if> />启用
+	<div class="padding table-responsive">
+		<form method="post"  action='__ACTION__' class="form-x"  >
+			<input type="hidden" name='brand_id' value='{$brand_info.brand_id}' />
+			<table class="table"> 
+				<tr>
+					<td>品牌名称:</td>
+					<td><html:input name='brand_name' required='no' class='input width-250'  placeholder="品牌名称"  value='{$brand_info.brand_name}'  /></td>
+				</tr>
+				
+				<tr> 
+					<td>品牌封面:</td>
+					<td style='text-align:left'>
+						<span class="button bg-yellow" id='img_upload'>展示图片</span>
+						<html:uploadImage ue_id='picarr' img_upload='img_upload' img_preview='img_preview' />
+						<div id="img_preview">
+							{$album}
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>品牌状态:</td>
+					<td style="text-align:left">
 						
-							<input name="brand_status" type="radio" value=0 <if condition="$brand_info.brand_status eq 0 "> checked="checked" </if> />禁用
-							
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2"><input value="保存" class="button bg-blue" type="submit"></td>
-					</tr>
+						<input name="brand_status" type="radio" value=1 <if condition="$brand_info.brand_status eq 1 ">  checked="checked" </if> />启用
+					
+						<input name="brand_status" type="radio" value=0 <if condition="$brand_info.brand_status eq 0 "> checked="checked" </if> />禁用
+						
+					</td>
+				</tr>
+				<tr class="hidden">
+				<td>内容详情:</td>
+				<td>
+					 <html:editor id="editor" name="content"  width='80%' content="{$ad_info['content']}"  ></html:editor>
+				</td>
+			</tr>
+				<tr>
+					<td colspan="2"><input value="保存" class="button bg-blue" type="submit"></td>
+				</tr>
 
-				</table>
-			</form>	
-		</div>
+			</table>
+		</form>	
+
 	</div>
-	
 </div>	
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info);
+				}
+			}
+		});
+	});
+</script>

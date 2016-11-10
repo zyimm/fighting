@@ -1,0 +1,79 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(57,'编辑','store_menu')}
+	<hr />
+	<form method="post"  action='__ACTION__' class="form-x"  enctype="multipart/form-data">
+	
+		<input type="hidden"  name='card_id'  value="{$card_info['card_id']}" />
+		<table class="table table-hover" style=''>
+		
+			<tr>
+				<td style="width:160px;">卡种:</td>
+				<td class="text-left">
+					<html:select id='card_type' name='card_type'  selected="card_info['card_type']"  options='card_type'/>	
+				</td>
+			</tr>
+			
+			<tr>
+				<td>开始时间:</td>
+				<td class="text-left" >
+					<html:date  class='input' value='{$card_info.card_start_time}'   name='card_start_time' style='height: 34px;width:200px;line-height: 20px;' max='+2000'  />
+				</td>
+				
+			</tr>
+			<tr>
+				<td>结束时间:</td>
+				<td class="text-left" >
+					<html:date  class='input' value='{$card_info.card_end_time}'   name='card_end_time' style='height:34px;width:200px;line-height: 20px;' max='+2000'  />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>次数:</td>
+				<td class="text-left">
+					<html:input name='card_nums' type='number'  class='input'  placeholder="次数" style="width:160px;" value='{$card_info.card_nums}'  />
+				</td>
+			</tr>
+			 <if condition="$edit neq 1 ">
+			<tr> 
+				<td>绑定学生学号:</td>
+				<td class="text-left">
+					<html:input name='student_no_alias'   class='input'  placeholder="学号" style="width:160px;" value='{$card_info.student_no_alias}'  />
+				</td>
+			</tr>
+			</if>
+			<tr> 	
+				<td>状态:</td>
+				<td style="text-align:left">
+					<input name="card_status" type="radio" value=1 <if condition="$card_info.card_status eq 1 "> checked="checked" </if> />正常
+					<input name="card_status" type="radio" value=0 <if condition="$card_info.card_status eq 0 "> checked="checked" </if> />禁用
+				</td>
+			</tr>
+			
+		</table>
+		<div style='text-align:center' class="padding">
+			<button class="button button-big" type="submit"><span class="icon-edit text-blue"></span>提交修改</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript"> 
+	$(function(){
+		$(".form-x").Validform({	
+			tiptype:3,
+			ajaxPost:true,
+			showAllError : true,
+			callback:function(data){
+				if(data.status==1){
+					layer.msg(data.info,{time: 3000,icon:1},function(){
+						layer.closeAll();
+						window.location.href='__CONTROLLER__/index.html';
+					});	
+				}else{
+					layer.msg(data.info,{icon:2});
+				}
+			}
+		});
+	});
+</script>

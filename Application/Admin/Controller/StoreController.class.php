@@ -32,8 +32,14 @@ class StoreController extends CommonController
         $model = D('store');
         $field='s.*,b.brand_name';
         $map['s.is_del']=0;
-        $store_list=$model->getStoreList($map,$field);
-        $this->assign('store_list',$store_list);
+        $page_now =empty($_GET['p'])?1:$_GET['p'];
+        $store_list=$model->getStoreList($map,$field,[],$page_now);
+        foreach ($store_list['list'] as $k=>$v){
+            $area = [$v['country'],$v['province'],$v['city'],$v['district']];
+            $store_list['list'][$k]['area'] = get_region_info($area);
+        }
+        $this->assign('store_list',$store_list['list']);
+        $this->assign('page_show',$store_list['page_show']);
         $this->display();
     }
 
@@ -123,5 +129,18 @@ class StoreController extends CommonController
             //echo $model->getLastSql();
             $this->error('数据修改失败!');
         }
+    }
+    
+    public  function getArea()
+    {
+        if(S('area_data')){
+            echo json_encode(S('area_data'));
+        }else{
+            $model = D('Region');
+            $data = $model->getAll();
+            S('area_data',$data);
+            echo json_encode(S('area_data'));
+        }
+       
     }
 }

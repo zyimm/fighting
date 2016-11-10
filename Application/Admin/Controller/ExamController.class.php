@@ -19,15 +19,15 @@ class ExamController extends CommonController
         $map =[
             'is_del' =>0,
         ];
-        $field = 'exam_id,exam_title,exam_image,exam_content,exam_time
+        $field = 'exam_id,exam_title,exam_image,exam_content,exam_time,store_id
             ,exam_apply_time,status';
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
         $row = $model->getExamList($map,$field,[],$page_now);
         foreach ($row['list'] as $k=>$v){
-            $temp_exam_time = explode(',',$v['exam_time']); 
+            $temp_exam_time = explode(',',$v['exam_time']);
             $temp_exam_apply_time = explode(',',$v['exam_apply_time']);
-            $row['list'][$k]['exam_time'] = date('Y年/m月/d日 H:i:s',$temp_exam_time[0]).'~'.date('Y年/m月/d日 H:i:s',$temp_exam_time[1]);
-            $row['list'][$k]['exam_apply_time'] = date('Y年/m月/d日 H:i:s',$temp_exam_apply_time[0]).'~'.date('Y年/m月/d日 H:i:s',$temp_exam_apply_time[1]);
+            $row['list'][$k]['exam_time'] = '起:'.date('Y年/m月/d日 H:i:s',$temp_exam_time[0]).'<br />'.'止:'.date('Y年/m月/d日 H:i:s',$temp_exam_time[1]);
+            $row['list'][$k]['exam_apply_time'] = '起:'.date('Y年/m月/d日 H:i:s',$temp_exam_apply_time[0]).'<br />'.'止:'.date('Y年/m月/d日 H:i:s',$temp_exam_apply_time[1]);
         }
         $this->assign('exam_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
@@ -238,71 +238,32 @@ class ExamController extends CommonController
         if(empty($exam_id)){
             $this->error('exam_id 不存在!');
         }
-        $model = D('exam');
-        //检测exam 是否正常
-        if(!$model->checkexam($exam_id,$this->store_id)){
-            $this->error('该考试处于非正常状态!');
-        }
+        $model = D('Store/exam');
+      
         $map =[
             's.is_del' =>0,
             's.student_status' =>1,
             'exam_id'=>$exam_id
         ];
-        $field = 'a.apply_id,a.apply_time,a.status,
+        $field = 'a.apply_id,a.apply_time,a.status,a.operator_id,a.operator_time,
             s.student_name,s.student_age,s.student_sex,s.level_id,
             m.nick_name, m.mobile,l.level_name';
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
         $row = $model->getApplyList($map,$field,[],$page_now,100000);
+        $store_model  = D('Store/Store');
+        foreach ($row['list'] as $k=>$v){
+            if(!empty($v['operator_id'])){
+                $temp = $store_model->getStoreAdminInfo($v['operator_id']);
+                $row['list'][$k]['operator_name']=$temp['user_name'];
+            }else{
+                continue;
+            }
+        }
        //dump($row['list']);
         $this->assign('apply_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
         $this->display();
     }
-    /**
-     * 审核
-     */
-    public function  doApply()
-    {
-        $apply_id =(int)$_REQUEST['apply_id'];
-        if(empty($apply_id)){
-            $this->error('apply_id 不存在!');
-        }
-        $model = D('exam');
-        //检测从属exam 是否正常
-        $exam_id =$model->where(['apply_id'=>$id,'store_id'=>$this->store_id])->getField('exam_id');
-        
-        if(!$model->checkExam($exam_id,$this->store_id)){
-            $this->error('该考试处于非正常状态!');
-        }else{
-            if(M('exam_apply')->where(['apply_id'=>$apply_id])->setField('status',1)){
-                $this->success('审核成功！');  
-            }else{
-                $this->error('审核失败！');
-            }
-        }
-    }
-    /**
-     * 
-     */
-    public function delApply()
-    {
-        $apply_id=(int)$_REQUEST['id'];
-        if(empty($apply_id)){
-            $this->error('数据id不存在！');
-        }else{
-            $model = D('exam');
-            //检测从属exam 是否正常
-            $exam_id = $model->where(['apply_id'=>$id,'store_id'=>$this->store_id])->getField('exam_id');
-            
-            if(!$model->checkexam($exam_id,$this->store_id)){
-                $this->error('该考试处于非正常状态!');
-            }else{
-                if(M('exam_apply')->where(['apply_id'=>$apply_id])->delete()){
-                   $this->success('删除成功!');
-                }else{
-                    $this->error('删除失败！');
-                }
-            }
-        }
-    }
+    
+   
 }

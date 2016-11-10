@@ -30,11 +30,11 @@ class ActivityModel extends Model
         if($page_size<1){
             $page_size = C('PAGE_SIZE');
         }
-        $count = $this->where($map)->count();
+        $count = $this->field($field)->where($map)->count();
         $page  = new Page($count,$page_size);// 实例化分页类 传入总记录数和每页显示的记录数(25)
         $show  = $page->show();// 分页显示输出
         // 进行分页数据查询 注意limit方法的参数要使用Page类的属性
-        $list = $this->where($map)->page("{$page_now},{$page_size}")->select();
+        $list = $this->field($field)->where($map)->page("{$page_now},{$page_size}")->select();
         if(!empty($search)){
             $page->parameter=$search;
         }

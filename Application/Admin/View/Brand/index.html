@@ -1,22 +1,27 @@
 <div class="padding table-responsive">
 	{:crumbs(25,'详细')}
-	<div class="alert"> 
-		<a href="__CONTROLLER__/add" class="button border-main icon-plus-square" type="submit"> 添加品牌</a>
-	</div>
 	<hr />
 	<table class="table table-bordered table-hover table-striped radius ">
 		<tbody>
 			<tr>
 				<th>品牌ID</th>
 				<th>品牌名称</th>
+				<th>封面图</th>
 				<th>更新时间</th>
+				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 			<volist name="brand" id="v"> 
 			<tr>
 				<td>{$v.brand_id}</td>
 				<td>{$v.brand_name}</td>
+				<td><img src="{$v.brand_image}" class="radius" alt="" width=40 height=40 onclick="showImage('{$v.brand_image}')" /></td>
 				<td>{$v.time|date='Y-m-d H:i:s',###}</td>
+				<if condition="$v.brand_status eq 1 ">
+				<td><b class="text-main">正常</b></td>
+				<else />
+				<td><b class="text-dot">禁用</b></td>
+				</if>
 				<td><a class="button button-little border-main icon-edit" href='/admin/brand/edit.html?brand_id={$v.brand_id}' >编辑</a></td>	
 			</tr>
 			</volist>

@@ -1,0 +1,47 @@
+<taglib name="html" />
+<script type="text/javascript" src="/assets/Plugin/Laydate/laydate.js"></script>
+<div class="padding table-responsive">
+	{:crumbs(55,'列表详细','store_menu')}
+	<hr />
+	<!-- <div class="alert margin-bottom"><a href="__CONTROLLER__/add" class="button border-main icon-plus-square">&nbsp;新增</a></div> -->
+	<table class="table table-bordered table-hover table-striped">
+		<tbody> 
+			<tr>
+				<th>评论序号</th>
+				<th>评论内容</th>
+				<!-- <th>评论缩略图</th> -->
+				<th>所在话题</th>
+				<th>更新时间</th>
+				<th>是否显示</th>
+		
+				<th>相关操作</th>
+			</tr>
+			<volist name="talk_list" id="talk">
+			<tr>
+				<td>{++$key}</td>
+				<td>{$talk.comment}</td>
+				<!-- <td><img src="{$talk.talk_image}" alt="" width=40 height=40 onclick="showImage('{$talk.talk_image}')" /></td> -->
+				<td>{$talk.talk_title}</td>
+				<td>{$talk.time|date='Y-m-d H:i:s',###}</td>
+				<td>
+				<if condition="$talk.status eq 1 ">
+					<tag class="badge bg-main">显示</tag>
+				<else />
+					<tag class="badge bg-dot">隐藏</tag>
+				</if>
+				</td>
+				<td>
+					<a href="__CONTROLLER__/editComment?id={$talk.id}" class="button bg-blue button-little">编辑</a>
+					
+					<a href="javascript:void(0)" onclick="itemDel({$talk.id},'__CONTROLLER__/del');" class="button bg-dot button-little">删除</a>
+				</td>
+			</tr>
+			</volist>
+			
+		</tbody>
+           
+	</table>
+	<div class="admin-page">  
+		{$page_show}
+	</div>
+</div>

@@ -34,8 +34,6 @@ class CoachsModel extends Model
             ->field($field)
             ->join($pre . 'coachs as c on  m.id = c.member_id', 'left')
             ->join($pre . 'coachs_store_relation as  cs on  cs.coach_id = c.coach_id', 'left')
-           
-            
             ->where($map)
             ->count();
         $page = new Page($count, $page_size); // 实例化分页类 传入总记录数和每页显示的记录数(25)
@@ -44,8 +42,7 @@ class CoachsModel extends Model
         $list = M('members')->alias('m')
             ->field($field)
             ->join($pre . 'coachs as c on  m.id = c.member_id', 'left')
-            ->join($pre . 'coachs_store_relation as  cs on cs.coach_id = c.coach_id', 'left')
-            
+            ->join($pre . 'coachs_store_relation as  cs on cs.coach_id = c.coach_id', 'left')  
             ->where($map)
             ->page("{$page_now},{$page_size}")
             ->select();

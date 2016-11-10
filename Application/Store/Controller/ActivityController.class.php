@@ -28,8 +28,8 @@ class ActivityController extends CommonController
         foreach ($row['list'] as $k=>$v){
             $temp_activity_time = explode(',',$v['activity_time']); 
             $temp_activity_apply_time = explode(',',$v['activity_apply_time']);
-            $row['list'][$k]['activity_time'] = date('Y年/m月/d日 H:i:s',$temp_activity_time[0]).'~'.date('Y年/m月/d日 H:i:s',$temp_activity_time[1]);
-            $row['list'][$k]['activity_apply_time'] = date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[0]).'~'.date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[1]);
+            $row['list'][$k]['activity_time'] = '起:'.date('Y年/m月/d日 H:i:s',$temp_activity_time[0]).'<br />'.'止:'.date('Y年/m月/d日 H:i:s',$temp_activity_time[1]);
+            $row['list'][$k]['activity_apply_time'] = '起:'.date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[0]).'<br />'.'止:'.date('Y年/m月/d日 H:i:s',$temp_activity_apply_time[1]);
         }
         $this->assign('activity_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
@@ -251,12 +251,21 @@ class ActivityController extends CommonController
             's.student_status' =>1,
             'activity_id'=>$activity_id
         ];
-        $field = 'a.apply_id,a.apply_time,a.status,
+        $field = 'a.apply_id,a.apply_time,a.status,a.operator_id,a.operator_time,
             s.student_name,s.student_age,s.student_sex,
             m.nick_name, m.mobile';
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
         $row = $model->getApplyList($map,$field,[],$page_now);
        //dump($row['list']);
+        $store_model  = D('Store');
+        foreach ($row['list'] as $k=>$v){
+            if(!empty($v['operator_id'])){
+                $temp = $store_model->getStoreAdminInfo($v['operator_id']);
+                $row['list'][$k]['operator_name']=$temp['user_name'];
+            }else{
+                continue;
+            }
+        }
         $this->assign('apply_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
         $this->display();
@@ -281,10 +290,14 @@ class ActivityController extends CommonController
                 'deal_time' =>time(),
                 'status'=>1   
             ];
-            if(M('activity_apply')->where(['apply_id'=>$apply_id])->save($data)){
-                $this->success('审核成功！');  
+            $map = ['apply_id'=>$apply_id];
+            $status = M('activity_apply')->where($map)->getField('status');
+          
+            $data['status'] = ($status==1)?0:1;
+            if(M('activity_apply')->where($map)->save($data)){
+                $this->success('审核处理成功！');  
             }else{
-                $this->error('审核失败！');
+                $this->error('审核处理失败！');
             }
         }
     }

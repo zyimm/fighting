@@ -96,7 +96,7 @@ class AdController extends CommonController
                 <img src='{$ad_info['ad_image']}' alt=''  class='radius-big' width='88' height='88' />
                 </div>";
             }
-            
+  
             $this->assign('album', $album);
             $this->assign('ad_info', $ad_info);
             $this->display('edit');

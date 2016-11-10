@@ -16,7 +16,7 @@ class BrandController extends CommonController
         $brand = M('brand')->where([
             'brand_status' => 1,
             'is_del' => 0
-        ])->select();
+        ])->order('brand_id desc')->select();
         $this->assign('brand', $brand);
         $this->display();
     }
@@ -32,6 +32,7 @@ class BrandController extends CommonController
             //dump($_POST);exit;
             if ($model->create()) {
                 $model->time = time();
+                $model->brand_image = $_POST['img_url'][0];
                 if ($model->add()) {
                    $this->success('数据修改成功!',__CONTROLLER__);
                 }else{
@@ -56,18 +57,11 @@ class BrandController extends CommonController
         if (IS_POST) {
             if ($model->create()) {
                 $model->time = time();
+                $model->brand_image = $_POST['img_url'][0];
                 if ($model->brand_id) { // 更新
                     if ($model->save()) {
                         $this->success('数据修改成功!');
                     } else {
-                        
-                        $this->error('数据修改失败!');
-                    }
-                } else { // 添加
-                    if ($model->add()) {
-                        $this->success('数据修改成功!');
-                    } else {
-                        
                         $this->error('数据修改失败!');
                     }
                 }
@@ -84,6 +78,15 @@ class BrandController extends CommonController
                 'brand_id' => $brand_id,
                 'is_del' => 0
             ])->find();
+            if(!empty($brand_info['brand_image'])){
+                $album .= "<div style='width:120px;float:left;margin:8px;position:relative;'>
+                <i class='icon-times-circle text-dot' onclick='delImage(this)' style='cursor:pointer;position:absolute;top:-6px;right:28px;'></i>
+                <input type='hidden' value='{$brand_info['brand_image']}' name='img_url[]' />
+                <img src='{$brand_info['brand_image']}' alt=''  class='radius-big' width='88' height='88' />
+                </div>";
+            }
+             
+            $this->assign('album', $album);
             $this->assign('brand_info', $brand_info);
             $this->display();
         }

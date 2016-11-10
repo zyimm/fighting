@@ -200,7 +200,8 @@ class StudentsController extends CommonController
                 'level_id' => $_POST['level_id'],
                 'address' => dhtmlspecialchars($_POST['address']),
                 'student_no_alias' => dhtmlspecialchars($_POST['student_no_alias']),
-                'operator_id' => $this->store_admin_id
+                'operator_id' => $this->store_admin_id,
+                'student_status'=>I('student_status')
              
             ];
             // 检查唯一性
@@ -286,7 +287,8 @@ class StudentsController extends CommonController
             $field = 's.*,st.store_name,su.user_name';
             $map = [
                 's.is_del' => 0,
-                's.store_id' => $this->store_id
+                's.store_id' => $this->store_id,
+                's.student_id'=>$id
             ];
             $row = $model->getStudentsList($map,$field);
             if(empty($row['list'][0])){
@@ -494,5 +496,54 @@ class StudentsController extends CommonController
                 $this->error('删除失败！');
             }
         }
+    }
+    public function courses()
+    {
+        $student_id = I('student_id');
+        $model = D('Store/courses');
+        $map =[
+                'is_del' =>0,     
+        ];
+        $field = 'course_id,course_title,course_image
+            ,course_time,course_home,course_students,status';
+        $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
+        $row = $model->getCoursesList($map,$field,[],$page_now);
+    
+        $week_array=["日","一","二","三","四","五","六"];
+        foreach ($row['list'] as $k=>$v){
+            $temp_course_time = explode('#',$v['course_time']);
+            foreach ($temp_course_time as $val){
+                $_t = explode(',',$val);
+                $row['list'][$k]['course_time_formation'].= '每周'.$week_array[$_t[0]]."的{$_t[1]}:{$_t[2]}-{$_t[3]}:{$_t[4]} <br />";
+                 
+            }
+        }
+    
+        foreach ($row['list'] as $k=>$v){
+            $map_students = [
+                    'c.course_id'=>$v['course_id'],
+                    's.is_del'=>0,
+                    's.student_status'=>1,
+            ];
+            $temp = $model->getCourseStudents($map_students,'s.student_id');
+            $student_id_arr = array_column($temp['list'],'student_id');
+            if(empty($student_id_arr) || !in_array($student_id,$student_id_arr)){
+                unset($row['list'][$k]);
+                continue;
+            }
+            $row['list'][$k]['apply_num'] =$temp['count'];
+            $temp_coachs  = $model->getCourseCoachs($v['course_id'],'cc.coach_id,m.nick_name');
+            $coachs = [];
+            foreach ($temp_coachs['list'] as $key=>$val){
+                $coachs[$val['coach_id']] = $val['nick_name'];
+            }
+            $row['list'][$k]['coachs'] =join(',',$coachs);
+        }
+        if(empty($row['list'])){
+            $this->error('该学生暂无课程!');
+        }
+        $this->assign('course_list', $row['list']);
+        $this->assign('page_show', $row['page_show']);
+        $this->display();
     }
 }

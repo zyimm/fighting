@@ -45,9 +45,27 @@ class CommonController extends Controller
             $model = D('Brand');
             $this->admin_info = $model->getBrandAdminInfo($this->admin_id);
             $this->brand_id = $this->admin_info['brand_id'];
+            $this->brand_info = M('brand')->where(['brand_id'=>$this->brand_id])->find();
             $this->store_id_gather = $model->getStoreIdGather($this->brand_id);
         } else {
             $this->redirect('/brand/login');
         }
+    }
+    
+    public function getStoreArray()
+    {
+        $map = [
+                'brand_id'=>$this->brand_id,
+                'store_status'=>1,
+                'is_del'=>0
+        ];
+        $data = M('store')->field('store_id,store_name')->where($map)->select();
+        $store_list = [
+            0=>'请选择道馆'
+        ];
+        foreach ($data as $k=>$v){
+            $store_list[$v['store_id']] = $v['store_name'];
+        }
+        return  $store_list;
     }
 }

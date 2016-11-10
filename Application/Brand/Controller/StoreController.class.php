@@ -31,10 +31,18 @@ class StoreController extends CommonController
     {
         $model = D('Admin/store');
         $field='s.*,b.brand_name';
-        $map['s.is_del']=0;
-        $map['store_id'] = ['in',$this->store_id_gather];
-        $store_list=$model->getStoreList($map,$field);
-        $this->assign('store_list',$store_list);
+        $map = [
+            's.is_del'=>0,
+            's.brand_id'=>$this->brand_id
+        ];
+        $page_now =empty($_GET['p'])?1:$_GET['p'];
+        $store_list=$model->getStoreList($map,$field,[],$page_now);
+        foreach ($store_list['list'] as $k=>$v){
+            $area = [$v['country'],$v['province'],$v['city'],$v['district']];
+            $store_list['list'][$k]['area'] = get_region_info($area);
+        }
+        $this->assign('store_list',$store_list['list']);
+        $this->assign('page_show',$store_list['page_show']);
         $this->display();
     }
 
@@ -166,8 +174,8 @@ class StoreController extends CommonController
                 }
                 $model->role_id = 1;
                 //$model->expire_time = strtotime($model->expire_time);
-                $model->brand_id = $model->brand_id;
-                if(!empty($this->password)){
+                $model->brand_id = $this->brand_id;
+                if(!empty($model->password)){
                     $model->password = md5($model->password);
                 }else{
                     $this->error('密码不能为空!');
@@ -190,10 +198,10 @@ class StoreController extends CommonController
             ];
             $store_temp = $model->getStoreList($map,'s.store_id,store_name');
             $store = [];
-            foreach ( $store_temp as $v){
+            foreach ( $store_temp['list'] as $v){
                 $store[$v['store_id']] = $v['store_name'];
             }
-            
+           
             $this->assign('store',$store);
             $this->display('editAdmin');
         }
@@ -218,7 +226,7 @@ class StoreController extends CommonController
                 $map = [
                     'id' =>$admin_id,
                 ];
-                if(!empty($this->password)){
+                if(!empty($model->password)){
                     $model->password = md5($model->password);
                 }else{
                     unset($model->password);
@@ -248,6 +256,7 @@ class StoreController extends CommonController
                     'su.is_del'=>0,
                     'su.role_id'=>1,
                     'su.brand_id'=>$this->brand_id,
+                    'su.id'=>$admin_id
             ];
             $admin_list = $model->getStoreAdminList($map,$field);
             $admin_info = $admin_list[0];
@@ -261,10 +270,15 @@ class StoreController extends CommonController
             ];
             $store_temp = $model->getStoreList($map,'s.store_id,s.store_name');
             $store = [];
-            foreach ( $store_temp as $v){
-                $store[$v['store_id']] = $v['store_name'];
+            foreach ( $store_temp['list'] as $v){
+                if($v['store_id'] == $admin_info['store_id']){
+                    $store[$v['store_id']] = $v['store_name'];
+                    break;
+                }
+               
             }
            // $admin_info['expire_time'] = date('Y-m-d H:i:s',$admin_info['expire_time']);
+          
             $this->assign('store',$store);
             $this->assign('admin_info',$admin_info);
             $this->display('editAdmin');
@@ -288,5 +302,18 @@ class StoreController extends CommonController
                 $this->error('删除失败！');
             }
         }
+    }
+    
+    public  function getArea()
+    {
+        if(S('area_data')){
+            echo json_encode(S('area_data'));
+        }else{
+            $model = D('Region');
+            $data = $model->getAll();
+            S('area_data',$data);
+            echo json_encode(S('area_data'));
+        }
+         
     }
 }

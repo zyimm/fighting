@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="renderer" content="webkit">
-	<title>Let's Fighting|后台管理中心</title>
+	<title>品牌-Let's Fighting|后台管理中心</title>
 	<link rel="stylesheet" href="/assets/Common/Css/pintuer.css" />
 	<link rel="stylesheet" href="/assets/Admin/Css/admin.css" />
 	
@@ -15,8 +15,8 @@
 		<!-- header-logo -->
 		<div class="admin-logo float-left padding">
 			<a class="text-large " target="_blank" href="javascript:void(0)">
-                <span><b><span class="open" style="color: #a5aeb4;">Let's</span>
-				<span class="cmf" style="color: #3fa9f5;">Fighting</span></b></span>
+            
+				<span class="cmf" style="color: #3fa9f5; font-size:16px;">{$brand_info['brand_name']}</span></b></span>
             </a>
 		</div>
 		<!-- admin-top-memu -->
@@ -29,8 +29,8 @@
 		</div>
 		<div class="admin-top-memu float-right "> 
 			<ul class="nav nav-menu nav-inline nav-navicon"> 
-				<li class='float-right'><a href="/store/login/loginout.html" ><i class="icon-sign-out padding-small-right"></i><span>退出</span></a></li>
-				<li class='float-right'><a href="javascript:clearCache('/store/index/clearCache.html');" ><i class="icon-trash-o padding-small-right"></i><span>清空缓存</span></a></li>
+				<li class='float-right'><a href="/brand/login/loginout.html" ><i class="icon-sign-out padding-small-right"></i><span>退出</span></a></li>
+				<li class='float-right'><a href="javascript:clearCache('__CONTROLLER__/clearCache.html');" ><i class="icon-trash-o padding-small-right"></i><span>清空缓存</span></a></li>
 				<li class='float-right'><a href="javascript:void(0)" ><i class="icon-user padding-small-right"></i><span>{$admin_info.user_name}[{$admin_info.role_name}]</span></a></li>
 			</ul>
 		</div>
@@ -38,8 +38,8 @@
 	<div class="layout"> 
 		<!-- sidebar -->
 		<div class="sidebar">
-			<volist name="category_level_second" id="cls" key='k'>
-			<div class="sidebar-tab-{$k} hidden"> 
+			<volist name="category_level_second" id="cls" >
+			<div class="sidebar-tab-{$key} hidden"> 
 				<volist name="cls" id="clss"> 
 				<ul class="admin-side-memu "> 
 					<li>

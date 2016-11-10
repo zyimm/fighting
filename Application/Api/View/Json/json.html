@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>json</title>
+	<link rel="stylesheet" href="/assets/Common/Css/pintuer.css" />
+</head>
+<body>
+	<div class="padding"> 
+		<button class="button">返回的数据</button>
+		<pre id='main' class="alert padding border margin radius"> 
+			
+		</pre>
+		<pre class="alert padding border margin radius"> 
+			{$debug}
+		</pre>
+	</div>
+	<script type="text/javascript" src="/assets/Common/Js/jquery.js"></script>
+	<script type="text/javascript" src="/assets/Plugin/Json/jsonformat.js"></script>
+	<script type="text/javascript"> 
+		var json = JSON.stringify({$json});
+		document.getElementById('main').innerHTML = formatJson(json);
+	</script>
+</body>
+
+</html>

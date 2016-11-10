@@ -51,7 +51,7 @@
 				<th colspan="7" rowspan="2">基础信息</th>
 				<th colspan="5">班级</th>
 				<th colspan="2">经办信息</th>
-				<th rowspan="2">操作</th>
+				<!-- <th rowspan="2">操作</th> -->
 			</tr>
 			<tr>
 			  <th>班级名称</th>
@@ -66,7 +66,7 @@
 			<tr>
 			
 				<td rowspan="1">{++$key}</td>
-				<td rowspan="1">{$sl.student_name}</td>
+				<td rowspan="1"  class="cursor"  onclick="showImageFrame('{$sl.student_avatar|default='no_url'}',this)">{$sl.student_name}</td>
 				<td rowspan="1">性别:
 				<if condition="$sl.student_sex eq 1 ">
 				 <i class="icon-male text-blue"></i>(男)
@@ -78,7 +78,7 @@
 				<td rowspan="1">家长手机:{$sl.parent_mobile|default='暂无!'}</td>
 				<td rowspan="1">学号:{$sl.student_no_alias|default='暂无!'}</td>
 				<td rowspan="1">当前段位:<b class="button border-green button-little"><?php echo $level[$sl['level_id']] ?></b> </td>
-				<td>暂无课程!</td>
+				<td><a href="__CONTROLLER__/courses?student_id={$sl.student_id}" class="cursor">点击查看课程</a></td>
 				<td>
 					<span style="color: orange;">[{$sl.card_type}]</span>
 				</td>
@@ -94,10 +94,10 @@
 	
 				<td rowspan="1">{$sl.user_name}</td>
 				<td rowspan="1">录入时间：{$sl.operator_time|date='Y-m-d H:i:s',###}</td>
-				<td rowspan="1">-x-x-x-
-					<!-- <a class="button border-blue button-little" href="__CONTROLLER__/edit?student_id={$sl.student_id}">编辑</a> 
-					<a class="button border-red button-little " href="javascript:;" onclick="itemDel({$sl.student_id},'__CONTROLLER__/del')">删除</a> -->
-				</td>
+				<!--<td rowspan="1">-x-x-x-
+					 <a class="button border-blue button-little" href="__CONTROLLER__/edit?student_id={$sl.student_id}">编辑</a> 
+					<a class="button border-red button-little " href="javascript:;" onclick="itemDel({$sl.student_id},'__CONTROLLER__/del')">删除</a> 
+				</td>-->
 			 
 			</tr>
 			</volist>

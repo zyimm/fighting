@@ -9,6 +9,7 @@
 namespace Admin\Controller;
 
 use Think\Controller;
+use Think\Auth;
 
 class CommonController extends Controller
 {
@@ -21,14 +22,21 @@ class CommonController extends Controller
         //检测登录
         $this->IsLogin();
         //判断权限
-        /* $auth=new Auth();
-        if(!$auth->check(MODULE_NAME.'-'.ACTION_NAME,$this->$admin_id)){
-            if(IS_AJAX){
-                ajaxMsg('你没有权限',0);
-            }else{
+        if($this->admin_info['role_id'] != 1){
+            $auth=new Auth();
+            $auth_id = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
+          
+            if(!$auth->check($auth_id,$this->admin_id)){
+                /* if(IS_AJAX){
+                 ajaxMsg('你没有权限',0);
+                 }else{
+                 $this->error('你没有权限');
+                 } */
+                
                 $this->error('你没有权限');
             }
-        } */
+        }
+        
         
     }
 

@@ -14,7 +14,9 @@
 				<th>家长姓名</th>
 				<th>联系方式</th>
 				<th>审核状态</th>
-				<th>相关操作</th>
+				<th>审核人</th>
+				<th>审核时间</th>
+				<!-- <th>相关操作</th> -->
 			</tr>
 			<volist name="apply_list" id="apply">
 			<tr>
@@ -37,14 +39,16 @@
 					<tag class="badge bg-dot">未审核</tag>
 				</if>
 				</td>
-				<td>
+				<td>{$apply.operator_name|default='暂无!'}</td>
+				<td>{$apply.operator_time|date='Y-m-d H:i:s',###}</td>
+				<!-- <td>
 				<if condition="$apply.status eq 1 ">
-					-x-x-x
+					<a href="__CONTROLLER__/doApply?apply_id={$apply.apply_id}" class="button bg-blue button-little">已审核</a>
 				<else />
 					<a href="__CONTROLLER__/doApply?apply_id={$apply.apply_id}" class="button bg-blue button-little">审核</a>
 					<a href="javascript:void(0)" onclick="itemDel({$apply.apply_id},'__CONTROLLER__/delApply');" class="button bg-dot button-little">删除</a>
 				</if>
-				</td>
+				</td> -->
 			</tr>
 			</volist>
 			

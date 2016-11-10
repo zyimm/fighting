@@ -63,12 +63,18 @@ class AdminModel extends Model
     public function getAuthList($role_id=0)
     {   $model = M('auth_rule');
         $temp_auth_list = $model->where(['status'=>1])->order('id asc')->select();
-               
+        $self_auth = M('auth_group')->where(['id'=>$role_id])->getField('rules');
+        $self_auth =explode(',',$self_auth);
         $auth_list=[];
         foreach ($temp_auth_list as $v){
             $auth_list[$v['id']] = $v;
         }
-        foreach ($auth_list as $v){
+        foreach ($auth_list as $k=>$v){
+            if(in_array($v['id'],$self_auth)){
+                $auth_list[$k]['check'] = 1;
+            }else{
+                $auth_list[$k]['check'] = 0;
+            }
             $auth_list[$v['pid']]['node'][$v['id']] = &$auth_list[$v['id']];
         }
      

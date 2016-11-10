@@ -6,7 +6,7 @@
  * Copyright (c) 2016 http://www.zyimm.com All rights reserved.
  * 2016年10月11日 上午10:20:31
  */
-namespace Store\Controller;
+namespace Brand\Controller;
 
 class MembersController extends CommonController
 {
@@ -16,10 +16,10 @@ class MembersController extends CommonController
      */
     public function index()
     {
-        $model = D('Members');
+        $model = D('Store/Members');
         $map = [
             'm.is_del' => 0,
-            'm.store_id' =>$this->store_id,
+            'm.store_id' =>['in',$this->store_id_gather],
             'm.utype' => 1,
         ];
         //搜索
@@ -34,8 +34,9 @@ class MembersController extends CommonController
             $map['m.student_id'] = ['neq',0];
             $search['is_bing'] = $_REQUEST['is_bing'];
         }
-        if(0==$_REQUEST['is_bing'] && isset($_REQUEST['is_bing'])){
-            $map['m.student_id'] = 0;
+        if(!empty($_REQUEST['store'])){
+            $map['m.store_id'] = (int)$_REQUEST['store'];
+            $search['store_id'] = $map['m.store_id'];
         }
    
         $_REQUEST['star_time'] = empty($_REQUEST['star_time'])?'2015-01-01':$_REQUEST['star_time'];
@@ -50,22 +51,22 @@ class MembersController extends CommonController
             ]
         ];
         if (!empty($_REQUEST['mobile'])) {
-            $map['s.parent_mobile'] = $_REQUEST['mobile'];
+            $map['m.mobile'] = $_REQUEST['mobile'];
             // $map['s.self_mobile'] = $_REQUEST['mobile'];
             $search['mobile'] = $_REQUEST['mobile'];
         }
         
         $this->assign('map',array_merge($_REQUEST,$search));
         $page_now = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
-        $field = 'm.id,m.mobile,m.sex,m.age,m.nick_name,
+        $field = 'm.id,m.mobile,m.sex,m.age,m.nick_name,m.avatar,
                 m.last_login_time, m.reg_time,
             su.student_name,su.student_sex,su.student_age,s.store_name,su.student_name';
         $row = $model->getMembersList($map, $field,$search,$page_now);
-        
+       
          //dump($row);exit;
         $this->assign('member_list', $row['list']);
         $this->assign('page_show', $row['page_show']);
-
+        $this->assign('store', $this->getStoreArray());
         $this->display();
      
     }
@@ -87,7 +88,7 @@ class MembersController extends CommonController
             $this->error('id不存在!');
         }
         
-        $model = D('Members');
+        $model = D('Store/Members');
         if(IS_POST){
             //dump($_POST);exit;
             $member_data = [
@@ -113,8 +114,7 @@ class MembersController extends CommonController
             $map = [
                 'm.id'=>$member_id,
                 'm.is_del' => 0,
-                'm.store_id' =>$this->store_id,
-                'm.utype' => 1,
+                'm.utype' => 1
             ];
             $row = $model->getMembersList($map,$field);
             if(empty($row['list'][0])){

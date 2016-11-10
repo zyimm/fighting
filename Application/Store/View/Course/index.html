@@ -9,37 +9,38 @@
 			<tr>
 				<th>序列</th>
 				<th>课程标题</th>
-				<th>缩略图</th>
+				<th>课程封面</th>
 				<th>课程教室</th>
-				<th>课程时间</th>
 				<th>上课时间</th>
-				<th>已报名人数</th>
+				<th>上课人数/额定人数</th>
+				<th>任课教练</th>
 				<th>是否显示</th>
 				<th>相关操作</th>
 			</tr>
-			<volist name="exam_list" id="exam">
+			<volist name="course_list" id="course">
 			<tr>
 				<td>{++$key}</td>
-				<td>{$exam.exam_title}</td>
-				<td><img src="{$exam.exam_image}" alt="" width=40 height=40 onclick="showImage('{$exam.exam_image}')" /></td>
-				<td>{$exam.exam_time}</td>
-				<td>{$exam.exam_apply_time}</td>
-				<td>{$exam.apply_num}/人</td>
+				<td>{$course.course_title}</td>
+				<td><img src="{$course.course_image}" alt="" width=40 height=40 onclick="showImage('{$course.course_image}')" /></td>
+				<td>{$course.course_home}</td>
+				<td>{$course.course_time_formation}</td>
+				<td>{$course.apply_num}/<b class="text-dot"><if condition="$course.course_students eq 0 ">(无限制)<else />{$course.course_students}</if></b>人</td>
+				<td>{$course.coachs}</td>
 				<td>
-					<if condition="$exam.status eq 1 ">
+					<if condition="$course.status eq 1 ">
 						<tag class="badge bg-main">开启</tag>
 					<else />
 						<tag class="badge bg-dot">关闭</tag>
 					</if>
 				</td>
 				<td>
-					<a href="__CONTROLLER__/edit?exam_id={$exam.exam_id}" class="button bg-blue button-little">编辑</a>
-					<if condition="$exam.status eq 1 ">
-					<a href="__CONTROLLER__/apply?exam_id={$exam.exam_id}" class="button bg-main button-little">查看报名列表</a>
+					<a href="__CONTROLLER__/edit?course_id={$course.course_id}" class="button bg-blue button-little">编辑</a>
+					<if condition="$course.status eq 1 ">
+					<a href="__CONTROLLER__/apply?course_id={$course.course_id}" class="button bg-main button-little">查看学生列表</a>
 					<else />
 					<a href="javascript:alert('该课程处于关闭状态!')" class="button bg-gray button-little">查看报名列表</a>
 					</if>
-					<a href="javascript:void(0)" onclick="itemDel({$exam.exam_id},'__CONTROLLER__/del');" class="button bg-dot button-little">删除</a>
+					<a href="javascript:void(0)" onclick="itemDel({$course.course_id},'__CONTROLLER__/del');" class="button bg-dot button-little">删除</a>
 				</td>
 			</tr>
 			</volist>
