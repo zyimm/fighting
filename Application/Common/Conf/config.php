@@ -9,8 +9,8 @@ return [
     // 普通配置
     'DB_USER'         => 'root', // 用户名
     'DB_PWD'          => '', // 密码
-    'DB_HOST'         => '115.159.5.87',
-    'DB_NAME'         => 'fighting',
+    'DB_HOST'         => '127.0.0.1',
+    'DB_NAME'         => 'xxxx',
      
     'TOKEN_ON'          => false, //是否开启令牌验证
     'TOKEN_NAME'        => '__hash__', //令牌验证的表单隐藏字段名称
@@ -32,7 +32,7 @@ return [
     'SMS_ULR' =>'https://api.submail.cn/message/send.json',
     'SMS_APPID'  =>10619,
     'SMS_SIGN' =>'【验证码短信】',
-    'SMS_SIGNATURE' =>'2f250ae17e40db7de015db9a36e9849c',
+    'SMS_SIGNATURE' =>'xxx',
     'SHOW_PAGE_TRACE'=>'true',
     
     //分页
