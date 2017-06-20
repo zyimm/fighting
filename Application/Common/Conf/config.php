@@ -8,7 +8,7 @@ return [
     'DB_PORT'         => 3306,
     // 普通配置
     'DB_USER'         => 'root', // 用户名
-    'DB_PWD'          => 'zyimm~25', // 密码
+    'DB_PWD'          => '', // 密码
     'DB_HOST'         => '115.159.5.87',
     'DB_NAME'         => 'fighting',
      
