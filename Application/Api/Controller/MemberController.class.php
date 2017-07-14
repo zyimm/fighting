@@ -1,7 +1,7 @@
 <?php
 /**
- * 
  * 会员中心
+ * 
  * @author zyimm <799783009@qq.com>
  * Copyright (c) 2016 http://www.zyimm.com All rights reserved.
  * 2016年10月31日 下午4:12:11
@@ -14,6 +14,7 @@ class MemberController extends CommonController
     
     /**
      * 个人中心首页
+     * 
      * @param http://www.fighting.com/api/Member?token=1234567890
      */
     public function index()
