@@ -10,7 +10,7 @@ return [
     'DB_USER'         => 'root', // 用户名
     'DB_PWD'          => '', // 密码
     'DB_HOST'         => '127.0.0.1',
-    'DB_NAME'         => 'xxxx',
+    'DB_NAME'         => 'fight',
      
     'TOKEN_ON'          => false, //是否开启令牌验证
     'TOKEN_NAME'        => '__hash__', //令牌验证的表单隐藏字段名称
@@ -32,7 +32,7 @@ return [
     'SMS_ULR' =>'https://api.submail.cn/message/send.json',
     'SMS_APPID'  =>10619,
     'SMS_SIGN' =>'【验证码短信】',
-    'SMS_SIGNATURE' =>'xxx',
+    'SMS_SIGNATURE' =>'',
     'SHOW_PAGE_TRACE'=>'true',
     
     //分页
