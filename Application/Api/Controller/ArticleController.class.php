@@ -1,7 +1,7 @@
 <?php
 /**
- * 
  * 资讯
+ * 
  * @author zyimm <799783009@qq.com>
  * Copyright (c) 2016 http://www.zyimm.com All rights reserved.
  * 2016年10月28日 上午11:29:54
@@ -12,7 +12,9 @@ class ArticleController extends CommonController
 {
     
     /**
+     * ad
      * 
+     * @author zyimm <799783009@qq.com> 2016年10月28日 上午11:29:54
      */
     public function ad(){
        
@@ -33,6 +35,8 @@ class ArticleController extends CommonController
     
     /**
      * 查看
+     * 
+     * @author zyimm <799783009@qq.com> 2016年10月28日 上午11:29:54
      */
     public function view()
     {
@@ -55,6 +59,11 @@ class ArticleController extends CommonController
         $this->display('Html/article');
     }
     
+    /**
+     * index
+     * 
+     * @author zyimm <799783009@qq.com> 2016年10月28日 上午11:29:54
+     */
     public function index(){
         
         $model = D('Store/Article');
@@ -75,8 +84,11 @@ class ArticleController extends CommonController
             static::jsonData($row['list']);
         }
     }
+    
     /**
      * 关注
+     * 
+     * @author zyimm <799783009@qq.com> 2016年10月28日 上午11:29:54
      */
     public function addFollow()
     {
@@ -95,6 +107,8 @@ class ArticleController extends CommonController
     }
     /**
      * 移除关注
+     * 
+     * @author zyimm <799783009@qq.com> 2016年10月28日 上午11:29:54
      */
     public function cancelFollow()
     {
