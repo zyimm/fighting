@@ -17,6 +17,8 @@ class ExamController extends CommonController
     }
     /**
      * 考试详情
+     * 
+     * @author 版权所有@copyright 2016 www.zyimm.com
      */
     public function getExamDetail()
     {
@@ -52,6 +54,8 @@ class ExamController extends CommonController
     }
     /**
      * 考试报名
+     * 
+     * @author 版权所有@copyright 2016 www.zyimm.com
      */
     public function apply()
     {

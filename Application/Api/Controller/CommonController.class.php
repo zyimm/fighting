@@ -78,6 +78,7 @@ class CommonController extends Controller
     }
     /**
      * json 返回信息
+     * 
      * @param string/array $msg
      * @param number $error
      */
